@@ -1,4 +1,4 @@
-import express from 'express';
+import express, { Request, Response, NextFunction } from 'express';
 import cors from 'cors';
 import dotenv from 'dotenv';
 import authRoutes from './modules/auth/auth.routes';
@@ -44,7 +44,7 @@ app.get('/health', (req, res) => {
 });
 
 // Global Error Handler
-app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+app.use((err: any, req: Request, res: Response, next: NextFunction) => {
   console.error('[Global Error Handler]', err);
   res.status(500).json({
     error: 'Internal Server Error',
