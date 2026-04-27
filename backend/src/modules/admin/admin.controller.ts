@@ -41,7 +41,7 @@ export const adminLogin = async (req: Request, res: Response) => {
 
 export const getAdminStats = async (req: Request, res: Response) => {
   try {
-    const totalTransactions = await Transaction.countDocuments();
+    const totalTransactions = await Transaction.countDocuments({});
     const flagged = await Transaction.countDocuments({ status: 'FLAGGED' });
     const safe = await Transaction.countDocuments({ status: 'SAFE' });
     const confirmedFraud = await Transaction.countDocuments({ status: 'CONFIRMED_FRAUD' });
@@ -50,7 +50,7 @@ export const getAdminStats = async (req: Request, res: Response) => {
     const investigating = await Transaction.countDocuments({ status: 'UNDER_INVESTIGATION' });
 
     // Revenue stats
-    const allTx = await Transaction.find().select('amount riskScore createdAt status');
+    const allTx = await Transaction.find({}).select('amount riskScore createdAt status');
     const totalVolume = allTx.reduce((sum, tx) => sum + tx.amount, 0);
     const avgRisk = allTx.length ? Math.round(allTx.reduce((sum, tx) => sum + tx.riskScore, 0) / allTx.length) : 0;
     const fraudRate = totalTransactions > 0 ? ((flagged + confirmedFraud) / totalTransactions * 100).toFixed(1) : '0';
@@ -61,7 +61,7 @@ export const getAdminStats = async (req: Request, res: Response) => {
     const last24hFlagged = await Transaction.countDocuments({ status: 'FLAGGED', createdAt: { $gte: yesterday } });
 
     // Recent transactions (last 10)
-    const recent = await Transaction.find().sort({ createdAt: -1 }).limit(10);
+    const recent = await Transaction.find({}).sort({ createdAt: -1 }).limit(10);
 
     // Registered users (from Supabase)
     let totalUsers = 0;

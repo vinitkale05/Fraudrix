@@ -3,7 +3,7 @@ import Transaction from '../../models/Transaction';
 
 export const getDashboardSummary = async (req: Request, res: Response) => {
   try {
-    const totalTransactions = await Transaction.countDocuments();
+    const totalTransactions = await Transaction.countDocuments({});
     const flaggedTransactions = await Transaction.countDocuments({ status: 'FLAGGED' });
     
     // Calculate fraud rate
@@ -15,7 +15,7 @@ export const getDashboardSummary = async (req: Request, res: Response) => {
     const savedRevenue = `₹${(flaggedTransactions * 85000).toLocaleString('en-IN')}`;
 
     // Get latest 3 transactions for the queue
-    const latestTransactions = await Transaction.find().sort({ createdAt: -1 }).limit(3);
+    const latestTransactions = await Transaction.find({}).sort({ createdAt: -1 }).limit(3);
 
     res.status(200).json({
       totalTransactions: totalTransactions.toLocaleString(),
@@ -55,7 +55,7 @@ export const getRiskTrends = async (req: Request, res: Response) => {
 
 export const exportTransactions = async (req: Request, res: Response) => {
   try {
-    const transactions = await Transaction.find().sort({ createdAt: -1 }).limit(100);
+    const transactions = await Transaction.find({}).sort({ createdAt: -1 }).limit(100);
     
     let csv = 'Transaction ID,User ID,Amount,Risk Score,Status,Date\n';
     transactions.forEach(tx => {

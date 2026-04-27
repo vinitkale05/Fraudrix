@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Transaction from '../../models/Transaction';
-import { getActiveRules } from '../rules/rule.service';
+import { getActiveRules } from '../modules/rules/rule.service';
 import { calculateRiskScore } from '../../utils/riskEngine';
 import { io } from '../../index';
 

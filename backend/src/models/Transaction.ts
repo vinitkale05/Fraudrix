@@ -15,7 +15,7 @@ export interface ITransaction extends Document {
     type: string;
     os: string;
   };
-  status: 'PENDING' | 'SAFE' | 'FLAGGED' | 'SUSPICIOUS';
+  status: 'PENDING' | 'SAFE' | 'FLAGGED' | 'SUSPICIOUS' | 'CONFIRMED_FRAUD' | 'RESOLVED' | 'FALSE_POSITIVE' | 'UNDER_INVESTIGATION';
   riskScore: number;
   metadata: any;
   createdAt: Date;
@@ -36,7 +36,11 @@ const TransactionSchema: Schema = new Schema({
     type: String,
     os: String,
   },
-  status: { type: String, enum: ['PENDING', 'SAFE', 'FLAGGED', 'SUSPICIOUS'], default: 'PENDING' },
+  status: { 
+    type: String, 
+    enum: ['PENDING', 'SAFE', 'FLAGGED', 'SUSPICIOUS', 'CONFIRMED_FRAUD', 'RESOLVED', 'FALSE_POSITIVE', 'UNDER_INVESTIGATION'], 
+    default: 'PENDING' 
+  },
   riskScore: { type: Number, default: 0 },
   metadata: { type: Object },
   createdAt: { type: Date, default: Date.now },

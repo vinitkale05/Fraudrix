@@ -1,4 +1,4 @@
-import { IRule } from '../rules/rule.service';
+import { IRule } from '../modules/rules/rule.service';
 
 export const calculateRiskScore = (transaction: any, rules: IRule[]): number => {
   let totalScore = 0;
