@@ -533,14 +533,14 @@
     <div id="toast" class="fixed bottom-8 left-1/2 -translate-x-1/2 z-[100] px-6 py-3 rounded-lg shadow-2xl text-xs font-bold uppercase tracking-widest transition-all duration-300 translate-y-20 opacity-0 pointer-events-none"></div>
 
     <script>
-      const API_URL = 'https://fraudrix-com.onrender.com/api';
+      const API_URL = '/api';
 
       // Connection Health Check
       async function checkHealth() {
         const dot = document.getElementById('statusDot');
         const text = document.getElementById('statusText');
         try {
-          const res = await fetch('https://fraudrix-com.onrender.com/health');
+          const res = await fetch('/health');
           if (res.ok) {
             dot.className = 'w-1.5 h-1.5 rounded-full bg-primary animate-pulse';
             text.innerText = 'Sync Active';

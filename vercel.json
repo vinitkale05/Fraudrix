@@ -3,6 +3,8 @@
   "public": true,
   "name": "fraudrix-ai",
   "rewrites": [
+    { "source": "/api/(.*)", "destination": "https://fraudrix-com.onrender.com/api/$1" },
+    { "source": "/health", "destination": "https://fraudrix-com.onrender.com/health" },
     { "source": "/(.*)", "destination": "/frontend/Fraudrix/$1" }
   ],
   "cleanUrls": true,
