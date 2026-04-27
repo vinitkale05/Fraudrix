@@ -259,7 +259,8 @@
                 errorDiv.classList.remove('hidden');
               }
             } catch (err) {
-              errorDiv.innerText = 'System offline. Please try again later.';
+              console.error('Signup detailed error:', err);
+              errorDiv.innerText = `Connection Error: ${err.message || 'Server unreachable'}. Check your internet or if the backend is waking up.`;
               errorDiv.classList.remove('hidden');
             } finally {
               btnText.innerText = 'Create Account';

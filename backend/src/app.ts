@@ -43,4 +43,14 @@ app.get('/health', (req, res) => {
   res.status(200).json({ status: 'UP', timestamp: new Date().toISOString() });
 });
 
+// Global Error Handler
+app.use((err: any, req: express.Request, res: express.Response, next: express.NextFunction) => {
+  console.error('[Global Error Handler]', err);
+  res.status(500).json({
+    error: 'Internal Server Error',
+    message: err.message || String(err),
+    path: req.path
+  });
+});
+
 export default app;
