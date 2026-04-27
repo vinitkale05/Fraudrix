@@ -2,7 +2,7 @@ import { Request, Response } from 'express';
 import Transaction from '../../models/Transaction';
 import { getActiveRules } from '../modules/rules/rule.service';
 import { calculateRiskScore } from '../../utils/riskEngine';
-import { io } from '../../index';
+import { getIO } from '../../utils/socket';
 
 export const createTransaction = async (req: Request, res: Response) => {
   try {
@@ -30,7 +30,7 @@ export const createTransaction = async (req: Request, res: Response) => {
 
     // 5. If High Risk, emit WebSocket Alert
     if (status === 'FLAGGED') {
-      io.emit('new_alert', {
+      getIO().emit('new_alert', {
         message: 'High Risk Transaction Detected',
         transactionId: transaction.transactionId,
         riskScore,
