@@ -1,7 +1,9 @@
 {
   "version": 2,
   "public": true,
+  "framework": null,
   "name": "fraudrix-ai",
+  "outputDirectory": "frontend/Fraudrix",
   "rewrites": [
     { "source": "/api/(.*)", "destination": "https://fraudrix-com.onrender.com/api/$1" },
     { "source": "/health", "destination": "https://fraudrix-com.onrender.com/health" },
