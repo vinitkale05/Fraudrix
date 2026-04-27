@@ -143,7 +143,11 @@
 <section class="relative bg-surface-container border border-white/10 p-xl rounded-xl shadow-2xl">
 <div class="mb-xl text-center">
 <h1 class="font-h1 text-h1 mb-xs text-on-surface">Secure Access</h1>
-<p class="font-body-sm text-body-sm text-on-surface-variant">Enter your enterprise credentials to continue</p>
+<p class="font-body-sm text-on-surface-variant">Enter your enterprise credentials to continue</p>
+<div id="connectionStatus" class="mt-4 flex items-center justify-center gap-2">
+  <span id="statusDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+  <span id="statusText" class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Checking Backend...</span>
+</div>
 </div>
         <form id="loginForm" class="space-y-lg">
           <div class="space-y-sm">
@@ -179,6 +183,28 @@
 
         <script>
           const API_URL = 'https://fraudrix-com.onrender.com/api';
+
+          // Connection Health Check
+          async function checkHealth() {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            try {
+              const res = await fetch('https://fraudrix-com.onrender.com/health');
+              if (res.ok) {
+                dot.className = 'w-2 h-2 rounded-full bg-primary animate-pulse';
+                text.innerText = 'Backend Connected';
+                text.className = 'text-[10px] font-bold uppercase tracking-widest text-primary';
+              } else {
+                throw new Error();
+              }
+            } catch (e) {
+              dot.className = 'w-2 h-2 rounded-full bg-error';
+              text.innerText = 'Backend Offline (Wake up may take 30s)';
+              text.className = 'text-[10px] font-bold uppercase tracking-widest text-error';
+            }
+          }
+          checkHealth();
+          setInterval(checkHealth, 15000);
 
           document.getElementById('loginForm').addEventListener('submit', async (e) => {
             e.preventDefault();

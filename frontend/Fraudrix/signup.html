@@ -144,6 +144,10 @@
 </div>
 <h1 class="font-h1 text-on-surface mb-2">Create Sentinel Account</h1>
 <p class="font-body-sm text-on-surface-variant">Access the next generation of financial security intelligence.</p>
+<div id="connectionStatus" class="mt-4 flex items-center justify-center gap-2">
+  <span id="statusDot" class="w-2 h-2 rounded-full bg-slate-500"></span>
+  <span id="statusText" class="text-[10px] font-bold uppercase tracking-widest text-on-surface-variant">Checking Backend...</span>
+</div>
 </div>
 <!-- Form Section -->
         <form id="signupForm" class="space-y-5">
@@ -197,6 +201,28 @@
 
         <script>
           const API_URL = 'https://fraudrix-com.onrender.com/api';
+
+          // Connection Health Check
+          async function checkHealth() {
+            const dot = document.getElementById('statusDot');
+            const text = document.getElementById('statusText');
+            try {
+              const res = await fetch('https://fraudrix-com.onrender.com/health');
+              if (res.ok) {
+                dot.className = 'w-2 h-2 rounded-full bg-primary animate-pulse';
+                text.innerText = 'Backend Connected';
+                text.className = 'text-[10px] font-bold uppercase tracking-widest text-primary';
+              } else {
+                throw new Error();
+              }
+            } catch (e) {
+              dot.className = 'w-2 h-2 rounded-full bg-error';
+              text.innerText = 'Backend Offline (Wake up may take 30s)';
+              text.className = 'text-[10px] font-bold uppercase tracking-widest text-error';
+            }
+          }
+          checkHealth();
+          setInterval(checkHealth, 15000);
 
           document.getElementById('signupForm').addEventListener('submit', async (e) => {
             e.preventDefault();

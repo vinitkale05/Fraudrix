@@ -143,6 +143,10 @@
 <div>
 <h1 class="text-lime-400 font-bold font-inter text-md">Command Center</h1>
 <p class="text-neutral-500 text-[10px] uppercase tracking-widest font-bold">AI Engine Active</p>
+<div id="connectionStatus" class="mt-2 flex items-center gap-2">
+  <span id="statusDot" class="w-1.5 h-1.5 rounded-full bg-slate-500"></span>
+  <span id="statusText" class="text-[9px] font-bold uppercase tracking-widest text-neutral-500">Checking Sync...</span>
+</div>
 </div>
 </div>
 <nav class="flex-1 flex flex-col gap-1 mt-4">
@@ -530,6 +534,28 @@
 
     <script>
       const API_URL = 'https://fraudrix-com.onrender.com/api';
+
+      // Connection Health Check
+      async function checkHealth() {
+        const dot = document.getElementById('statusDot');
+        const text = document.getElementById('statusText');
+        try {
+          const res = await fetch('https://fraudrix-com.onrender.com/health');
+          if (res.ok) {
+            dot.className = 'w-1.5 h-1.5 rounded-full bg-primary animate-pulse';
+            text.innerText = 'Sync Active';
+            text.className = 'text-[9px] font-bold uppercase tracking-widest text-primary';
+          } else {
+            throw new Error();
+          }
+        } catch (e) {
+          dot.className = 'w-1.5 h-1.5 rounded-full bg-error';
+          text.innerText = 'Sync Lost';
+          text.className = 'text-[9px] font-bold uppercase tracking-widest text-error';
+        }
+      }
+      checkHealth();
+      setInterval(checkHealth, 15000);
       let allTransactions = [];
       let selectedTx = null;
 
