@@ -6,8 +6,9 @@ dotenv.config();
 const supabaseUrl = process.env.SUPABASE_URL;
 const supabaseAnonKey = process.env.SUPABASE_ANON_KEY;
 
-if (!supabaseUrl || !supabaseAnonKey) {
-  console.warn('⚠️  WARNING: Supabase credentials missing. Authentication features will be disabled.');
+if (!supabaseUrl || !supabaseAnonKey || supabaseUrl.includes('placeholder')) {
+  console.error('❌ WARNING: Supabase credentials missing on Render.');
+  console.error('👉 ACTION REQUIRED: Go to Render Dashboard -> Environment and add SUPABASE_URL and SUPABASE_ANON_KEY.');
 }
 
 // Export a client even if credentials are missing to prevent initialization crashes.

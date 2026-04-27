@@ -5,8 +5,9 @@ dotenv.config();
 
 const connectDB = async () => {
   const uri = process.env.MONGODB_URI;
-  if (!uri) {
-    console.error('FATAL: MONGODB_URI is not defined in environment variables.');
+  if (!uri || uri.includes('localhost')) {
+    console.error('❌ FATAL ERROR: MONGODB_URI is missing or set to localhost on Render.');
+    console.error('👉 ACTION REQUIRED: Go to Render Dashboard -> Environment and add your MongoDB Atlas Connection String.');
     return;
   }
   try {
