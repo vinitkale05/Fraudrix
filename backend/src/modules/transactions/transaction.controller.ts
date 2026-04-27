@@ -1,6 +1,6 @@
 import { Request, Response } from 'express';
 import Transaction from '../../models/Transaction';
-import { getActiveRules } from '../modules/rules/rule.service';
+import { getActiveRules } from '../rules/rule.service';
 import { calculateRiskScore } from '../../utils/riskEngine';
 import { getIO } from '../../utils/socket';
 
@@ -54,7 +54,7 @@ export const createTransaction = async (req: Request, res: Response) => {
 export const getTransactions = async (req: Request, res: Response) => {
   try {
     const { status } = req.query;
-    const filter = status ? { status } : {};
+    const filter: any = status ? { status: String(status) } : {};
     const transactions = await Transaction.find(filter).sort({ createdAt: -1 }).limit(100);
     res.status(200).json(transactions);
   } catch (error) {
