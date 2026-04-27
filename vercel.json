@@ -1,0 +1,10 @@
+{
+  "version": 2,
+  "public": true,
+  "name": "fraudrix-ai",
+  "rewrites": [
+    { "source": "/(.*)", "destination": "/frontend/Fraudrix/$1" }
+  ],
+  "cleanUrls": true,
+  "trailingSlash": false
+}

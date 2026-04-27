@@ -1,12 +1,8 @@
 {
   "name": "fraudrix-root",
   "version": "1.0.0",
-  "description": "Root delegator for Fraudrix AI",
-  "scripts": {
-    "postinstall": "cd backend && npm install",
-    "build": "cd backend && npm run build",
-    "start": "cd backend && npm start"
-  },
+  "private": true,
+  "description": "Enterprise Fraud Detection Platform",
   "engines": {
     "node": "18.x"
   }
