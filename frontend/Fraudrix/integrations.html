@@ -1,0 +1,271 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Integrations | Fraudrix AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #96ce39; border-radius: 2px; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(10px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in { animation: fadeIn 0.4s ease forwards; }
+  .pulse-dot { animation: pulse 2s cubic-bezier(0.4,0,0.6,1) infinite; }
+  @keyframes pulse { 0%,100%{opacity:1;} 50%{opacity:.3;} }
+</style>
+<script id="tailwind-config">
+  tailwind.config = { darkMode:"class", theme:{ extend:{
+    colors:{ "error":"#ffb4ab","secondary":"#c8c6c3","surface-container-low":"#1a1c1c","surface-container-highest":"#333535","on-background":"#e2e2e2","outline":"#8d937e","on-surface":"#e2e2e2","surface-tint":"#9fd842","on-primary-fixed":"#121f00","background":"#121414","primary":"#b1eb53","surface-container":"#1e2020","primary-container":"#96ce39","outline-variant":"#434937","surface-variant":"#333535","surface-container-high":"#282a2b","error-container":"#93000a","on-error-container":"#ffdad6" },
+    fontFamily:{"h1":["Inter"],"h2":["Inter"],"body-md":["Inter"],"body-sm":["Inter"]},
+    fontSize:{"h1":["32px",{"lineHeight":"1.25","fontWeight":"700"}],"h2":["24px",{"lineHeight":"1.3","fontWeight":"600"}]},
+    spacing:{"xs":"4px","sm":"8px","md":"16px","lg":"24px","xl":"32px","2xl":"48px"}
+  }}}
+</script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+
+<!-- Header -->
+<header class="fixed top-0 z-40 w-full h-16 px-6 bg-neutral-900 border-b border-white/10 flex justify-between items-center">
+  <div class="flex items-center gap-8">
+    <a href="index.html" class="text-xl font-black text-lime-400 tracking-tighter uppercase">Fraudrix AI</a>
+    <nav class="hidden md:flex items-center gap-6">
+      <a class="text-neutral-400 font-inter text-sm hover:text-lime-400 transition-colors" href="dashboard.html">Overview</a>
+      <a class="text-lime-400 font-bold text-sm" href="integrations.html">Integrations</a>
+      <a class="text-neutral-400 font-inter text-sm hover:text-lime-400 transition-colors" href="auditlogs.html">Audit Logs</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-3">
+    <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+      <img id="userAvatar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=96ce39&color=fff"/>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-neutral-900 border-r border-white/10 flex flex-col pt-16 z-30">
+  <div class="p-6">
+    <div class="text-lime-400 font-bold uppercase text-[10px] tracking-widest mb-1">Command Center</div>
+    <p class="text-[10px] text-neutral-500 font-semibold tracking-widest uppercase mb-4">AI Engine Active</p>
+    <nav class="flex flex-col gap-1">
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="dashboard.html"><span class="material-symbols-outlined text-lg">dashboard</span>Dashboard</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="monitor.html"><span class="material-symbols-outlined text-lg">analytics</span>Live Monitor</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="rules.html"><span class="material-symbols-outlined text-lg">rule</span>Rule Engine</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="alerts.html"><span class="material-symbols-outlined text-lg">warning</span>Alerts Center</a>
+      <a class="border-l-2 border-lime-400 bg-lime-400/10 text-lime-400 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold transition-all" href="integrations.html"><span class="material-symbols-outlined text-lg">extension</span>Integrations</a>
+    </nav>
+  </div>
+  <div class="mt-auto p-6 border-t border-white/5">
+    <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="index.html"><span class="material-symbols-outlined text-lg">logout</span>Sign Out</a>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="pl-64 pt-16 min-h-screen">
+  <div class="p-8 max-w-6xl mx-auto">
+    <!-- Page Header -->
+    <div class="flex justify-between items-end mb-10">
+      <div>
+        <h1 class="text-3xl font-bold text-on-surface mb-1">Integrations</h1>
+        <p class="text-neutral-500 text-sm">Connect Fraudrix to your existing payment, banking and communication infrastructure.</p>
+      </div>
+      <div class="text-xs text-neutral-500 font-mono bg-surface-container px-3 py-1.5 rounded border border-outline-variant">
+        <span id="connectedCount" class="text-primary font-bold">0</span> of <span id="totalCount">0</span> connected
+      </div>
+    </div>
+
+    <!-- Search & Filter -->
+    <div class="flex gap-3 mb-8">
+      <div class="flex-1 relative">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 text-sm">search</span>
+        <input id="searchInput" oninput="renderIntegrations()" placeholder="Search integrations..." class="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm text-on-surface outline-none focus:border-primary transition-colors"/>
+      </div>
+      <div id="filterBtns" class="flex gap-2">
+        <button onclick="setFilter('All')" class="filter-btn filter-active px-4 py-2 text-xs font-bold rounded-lg transition-all" data-filter="All">All</button>
+        <button onclick="setFilter('Payment')" class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-surface-container border border-outline-variant text-neutral-400 hover:text-white transition-all" data-filter="Payment">Payment</button>
+        <button onclick="setFilter('Banking')" class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-surface-container border border-outline-variant text-neutral-400 hover:text-white transition-all" data-filter="Banking">Banking</button>
+        <button onclick="setFilter('Communication')" class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-surface-container border border-outline-variant text-neutral-400 hover:text-white transition-all" data-filter="Communication">Communication</button>
+        <button onclick="setFilter('Cloud')" class="filter-btn px-4 py-2 text-xs font-bold rounded-lg bg-surface-container border border-outline-variant text-neutral-400 hover:text-white transition-all" data-filter="Cloud">Cloud</button>
+      </div>
+    </div>
+
+    <!-- Grid -->
+    <div id="intGrid" class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5"></div>
+  </div>
+</main>
+
+<!-- Modal -->
+<div id="modal" class="hidden fixed inset-0 z-50 flex items-center justify-center bg-black/70 backdrop-blur-sm">
+  <div class="bg-surface-container border border-outline-variant rounded-2xl p-8 w-full max-w-md shadow-2xl fade-in">
+    <div class="flex items-center gap-4 mb-6">
+      <div id="modalIcon" class="w-14 h-14 rounded-2xl flex items-center justify-center text-2xl bg-surface-container-high"></div>
+      <div>
+        <h3 id="modalTitle" class="text-xl font-bold"></h3>
+        <p id="modalCategory" class="text-xs text-neutral-500 uppercase tracking-widest"></p>
+      </div>
+    </div>
+    <p id="modalDesc" class="text-sm text-neutral-400 mb-6 leading-relaxed"></p>
+    <div class="space-y-3 mb-6">
+      <label class="block text-xs font-bold uppercase tracking-widest text-neutral-400 mb-1">API Key / Token</label>
+      <input id="modalApiKey" type="password" placeholder="Enter your API key..." class="w-full px-4 py-2.5 bg-surface-container-high border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors"/>
+      <label class="block text-xs font-bold uppercase tracking-widest text-neutral-400 mb-1 mt-3">Webhook URL (optional)</label>
+      <input id="modalWebhook" type="text" placeholder="https://your-endpoint.com/webhook" class="w-full px-4 py-2.5 bg-surface-container-high border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors"/>
+    </div>
+    <div class="flex gap-3">
+      <button id="modalConnectBtn" onclick="confirmConnect()" class="flex-1 py-2.5 bg-primary-container text-on-primary-fixed font-bold rounded-lg hover:brightness-110 transition-all text-sm flex items-center justify-center gap-2">
+        <span class="material-symbols-outlined text-sm">power</span> Connect
+      </button>
+      <button onclick="closeModal()" class="px-6 py-2.5 bg-surface-container-highest text-on-surface font-bold rounded-lg hover:bg-surface-bright transition-all text-sm">Cancel</button>
+    </div>
+  </div>
+</div>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 bg-primary text-on-primary-fixed pointer-events-none"></div>
+
+<style>
+  .filter-active { background: #96ce39; color: #121f00; }
+</style>
+
+<script>
+  const user = JSON.parse(localStorage.getItem('fraudrix_user') || '{}');
+  if (user?.user_metadata?.full_name) {
+    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.user_metadata.full_name)}&background=96ce39&color=fff`;
+  }
+
+  const integrations = [
+    { id:'stripe', name:'Stripe', category:'Payment', icon:'💳', desc:'Monitor and intercept Stripe payment events in real-time. Flag suspicious charges before they complete.', connected:false },
+    { id:'razorpay', name:'Razorpay', category:'Payment', icon:'🔷', desc:'India\'s leading payment gateway. Receive webhooks for all transaction events and auto-flag anomalies.', connected:false },
+    { id:'paytm', name:'Paytm', category:'Payment', icon:'🅿', desc:'Connect your Paytm business account to monitor UPI and wallet transactions through Fraudrix.', connected:false },
+    { id:'hdfc', name:'HDFC Bank API', category:'Banking', icon:'🏦', desc:'Connect to HDFC NetBanking APIs for real-time account monitoring and anomaly detection.', connected:false },
+    { id:'sbi', name:'SBI API', category:'Banking', icon:'🏛', desc:'State Bank of India integration for bulk transaction analysis and fraud scoring.', connected:false },
+    { id:'upi', name:'UPI Gateway', category:'Payment', icon:'📱', desc:'Direct integration with NPCI UPI rails for monitoring peer-to-peer and merchant payments.', connected:false },
+    { id:'twilio', name:'Twilio SMS', category:'Communication', icon:'📲', desc:'Send instant SMS alerts to customers and analysts when high-risk transactions are detected.', connected:false },
+    { id:'slack', name:'Slack', category:'Communication', icon:'💬', desc:'Get real-time Fraudrix alerts in your Slack workspace. Route by risk level to specific channels.', connected:false },
+    { id:'email', name:'SendGrid Email', category:'Communication', icon:'📧', desc:'Automated email alerts for fraud confirmations, daily digests, and compliance reports.', connected:false },
+    { id:'aws', name:'AWS S3', category:'Cloud', icon:'☁', desc:'Archive all transaction logs and audit trails to your AWS S3 bucket for compliance storage.', connected:false },
+    { id:'gcp', name:'Google Cloud', category:'Cloud', icon:'🌐', desc:'Stream transaction data to BigQuery for advanced ML model training and batch analytics.', connected:false },
+    { id:'webhook', name:'Custom Webhook', category:'Cloud', icon:'🔗', desc:'Push Fraudrix events to any HTTP endpoint. Full payload control with HMAC signature verification.', connected:false },
+  ];
+
+  // Load saved state from localStorage
+  integrations.forEach(i => {
+    i.connected = localStorage.getItem(`int_${i.id}`) === 'true';
+  });
+
+  let currentFilter = 'All';
+  let pendingId = null;
+
+  function setFilter(f) {
+    currentFilter = f;
+    document.querySelectorAll('.filter-btn').forEach(b => {
+      if (b.dataset.filter === f) { b.classList.add('filter-active'); b.classList.remove('text-neutral-400','bg-surface-container','border','border-outline-variant'); }
+      else { b.classList.remove('filter-active'); b.classList.add('text-neutral-400','bg-surface-container','border','border-outline-variant'); }
+    });
+    renderIntegrations();
+  }
+
+  function renderIntegrations() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const filtered = integrations.filter(i =>
+      (currentFilter === 'All' || i.category === currentFilter) &&
+      (!search || i.name.toLowerCase().includes(search) || i.category.toLowerCase().includes(search))
+    );
+
+    const connected = integrations.filter(i => i.connected).length;
+    document.getElementById('connectedCount').innerText = connected;
+    document.getElementById('totalCount').innerText = integrations.length;
+
+    if (!filtered.length) {
+      document.getElementById('intGrid').innerHTML = `<div class="col-span-3 text-center text-neutral-500 py-16">No integrations found.</div>`;
+      return;
+    }
+
+    document.getElementById('intGrid').innerHTML = filtered.map(int => `
+      <div class="fade-in bg-surface-container border ${int.connected ? 'border-primary/50' : 'border-outline-variant/40'} rounded-xl p-6 hover:border-primary/60 transition-all group">
+        <div class="flex items-start justify-between mb-4">
+          <div class="w-12 h-12 rounded-xl bg-surface-container-high flex items-center justify-center text-2xl border border-white/10">${int.icon}</div>
+          <div class="flex items-center gap-1.5">
+            ${int.connected ? `<span class="pulse-dot w-2 h-2 rounded-full bg-primary"></span><span class="text-[10px] font-bold text-primary uppercase">Connected</span>` : `<span class="w-2 h-2 rounded-full bg-neutral-600"></span><span class="text-[10px] font-bold text-neutral-500 uppercase">Disconnected</span>`}
+          </div>
+        </div>
+        <div class="mb-1 text-xs font-bold text-primary uppercase tracking-widest">${int.category}</div>
+        <h3 class="text-base font-bold mb-2">${int.name}</h3>
+        <p class="text-xs text-neutral-400 leading-relaxed mb-5">${int.desc}</p>
+        <div class="flex gap-2">
+          ${int.connected
+            ? `<button onclick="disconnect('${int.id}')" class="flex-1 py-2 text-xs font-bold bg-error/10 text-error border border-error/20 rounded-lg hover:bg-error/20 transition-all">Disconnect</button>
+               <button onclick="testConnection('${int.id}')" class="px-3 py-2 text-xs font-bold bg-surface-container-highest rounded-lg hover:bg-surface-bright transition-all flex items-center gap-1"><span class="material-symbols-outlined text-sm">wifi_tethering</span>Test</button>`
+            : `<button onclick="openModal('${int.id}')" class="flex-1 py-2 text-xs font-bold bg-primary-container text-on-primary-fixed rounded-lg hover:brightness-110 transition-all">Connect</button>`
+          }
+        </div>
+      </div>
+    `).join('');
+  }
+
+  function openModal(id) {
+    pendingId = id;
+    const int = integrations.find(i => i.id === id);
+    document.getElementById('modalIcon').innerText = int.icon;
+    document.getElementById('modalTitle').innerText = int.name;
+    document.getElementById('modalCategory').innerText = int.category;
+    document.getElementById('modalDesc').innerText = int.desc;
+    document.getElementById('modalApiKey').value = '';
+    document.getElementById('modalWebhook').value = '';
+    document.getElementById('modal').classList.remove('hidden');
+  }
+
+  function closeModal() {
+    document.getElementById('modal').classList.add('hidden');
+    pendingId = null;
+  }
+
+  function confirmConnect() {
+    const apiKey = document.getElementById('modalApiKey').value.trim();
+    if (!apiKey) { showToast('Please enter an API Key.', 'bg-error-container text-on-error-container'); return; }
+
+    const btn = document.getElementById('modalConnectBtn');
+    btn.innerHTML = '<span class="material-symbols-outlined text-sm animate-spin">sync</span> Connecting...';
+    btn.disabled = true;
+
+    setTimeout(() => {
+      const int = integrations.find(i => i.id === pendingId);
+      int.connected = true;
+      localStorage.setItem(`int_${pendingId}`, 'true');
+      closeModal();
+      btn.innerHTML = '<span class="material-symbols-outlined text-sm">power</span> Connect';
+      btn.disabled = false;
+      renderIntegrations();
+      showToast(`✓ ${int.name} connected successfully!`);
+    }, 1500);
+  }
+
+  function disconnect(id) {
+    if (!confirm('Are you sure you want to disconnect this integration?')) return;
+    const int = integrations.find(i => i.id === id);
+    int.connected = false;
+    localStorage.removeItem(`int_${id}`);
+    renderIntegrations();
+    showToast(`${int.name} disconnected.`, 'bg-surface-container-highest text-on-surface');
+  }
+
+  function testConnection(id) {
+    const int = integrations.find(i => i.id === id);
+    showToast(`⚡ Testing ${int.name} connection...`, 'bg-surface-container-high text-on-surface');
+    setTimeout(() => showToast(`✓ ${int.name} — Connection OK! Latency: ${Math.floor(Math.random()*50)+10}ms`), 1500);
+  }
+
+  function showToast(msg, cls = 'bg-primary text-on-primary-fixed') {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.className = `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl transition-all duration-300 pointer-events-none ${cls}`;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 3000);
+  }
+
+  // Close modal on backdrop click
+  document.getElementById('modal').addEventListener('click', (e) => { if (e.target === document.getElementById('modal')) closeModal(); });
+
+  renderIntegrations();
+</script>
+</body></html>

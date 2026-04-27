@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        ::-webkit-scrollbar {
+            width: 4px;
+        }
+        ::-webkit-scrollbar-track {
+            background: #121414;
+        }
+        ::-webkit-scrollbar-thumb {
+            background: #333535;
+            border-radius: 2px;
+        }
+    </style>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "secondary": "#c8c6c3",
+                        "on-surface-variant": "#c3c9b2",
+                        "secondary-container": "#474744",
+                        "on-primary-fixed": "#121f00",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error": "#690005",
+                        "surface-container-low": "#1a1c1c",
+                        "surface-container-highest": "#333535",
+                        "on-background": "#e2e2e2",
+                        "outline": "#8d937e",
+                        "on-primary-fixed-variant": "#334f00",
+                        "on-surface": "#e2e2e2",
+                        "surface-bright": "#38393a",
+                        "surface-tint": "#9fd842",
+                        "on-secondary-container": "#b7b5b1",
+                        "on-secondary-fixed": "#1c1c1a",
+                        "on-primary": "#223600",
+                        "on-primary-container": "#375500",
+                        "background": "#121414",
+                        "primary": "#b1eb53",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "tertiary": "#d1d9f3",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary": "#283044",
+                        "on-secondary": "#31302e",
+                        "tertiary-container": "#b5bdd7",
+                        "on-tertiary-container": "#444c62",
+                        "surface-dim": "#121414",
+                        "inverse-surface": "#e2e2e2",
+                        "inverse-on-surface": "#2f3131",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface-container": "#1e2020",
+                        "on-secondary-fixed-variant": "#474744",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#121414",
+                        "primary-container": "#96ce39",
+                        "primary-fixed": "#baf55c",
+                        "outline-variant": "#434937",
+                        "secondary-fixed": "#e5e2de",
+                        "surface-variant": "#333535",
+                        "inverse-primary": "#456800",
+                        "primary-fixed-dim": "#9fd842",
+                        "surface-container-high": "#282a2b",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "grid_margin": "32px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "grid_gutter": "20px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"], "h2": ["Inter"], "body-md": ["Inter"], "body-lg": ["Inter"], "display": ["Inter"], "body-sm": ["Inter"], "mono": ["monospace"], "label-md": ["Inter"], "h1": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "mono": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+<!-- TopAppBar Shell -->
+<header class="bg-neutral-900 dark:bg-neutral-950 text-neutral-400 border-b border-white/10 docked full-width top-0 z-40 flex justify-between items-center h-16 px-6 w-full">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-lime-400 tracking-tighter">Fraudrix AI</span>
+<nav class="hidden md:flex gap-6">
+<a class="font-inter text-sm font-bold tracking-tight text-lime-400 transition-colors" href="#">Alerts Center</a>
+<a class="font-inter text-sm font-medium tracking-tight text-neutral-400 hover:text-lime-400 transition-colors" href="#">Forensics</a>
+<a class="font-inter text-sm font-medium tracking-tight text-neutral-400 hover:text-lime-400 transition-colors" href="#">System Health</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative flex items-center bg-surface-container rounded-lg px-3 py-1.5 border border-outline-variant">
+<span class="material-symbols-outlined text-sm mr-2">search</span>
+<input class="bg-transparent border-none focus:ring-0 text-body-sm w-48 p-0" placeholder="Search case ID..." type="text"/>
+</div>
+<button class="material-symbols-outlined hover:text-lime-400 transition-all">notifications</button>
+<button class="material-symbols-outlined hover:text-lime-400 transition-all">settings</button>
+<div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+<img class="w-full h-full object-cover" data-alt="Analyst Profile Avatar of a professional security specialist in a dark studio setting with teal accents" src="https://lh3.googleusercontent.com/aida-public/AB6AXuAUDdm0ruHP5xOw6zEqVZDVe5ErTVn1v-e5HSi0qWEHsBG0KMZbhljtKHOibo8hwQ6olIULP2jDdg3UHD1L0hI8kHH1HyHK4-nY2eY1g_KcoWzxwe1uc2HENuh8SslcH_IrbXvSIrJ0yPar4kTIANPipJO0SRygG9G5N_ehtZyzTOeVAiSSD-mUZGjLIjrGshe3fxykaZ-Tk1-tjBwWaNpNuWVQjZJQIfKVMmsUuaJuK8dR1twCQJalMM4mEYtDLeiu-ad2h9lSMwU"/>
+</div>
+</div>
+</header>
+<div class="flex flex-1 overflow-hidden">
+<!-- SideNavBar Shell -->
+<aside class="bg-neutral-900 dark:bg-neutral-950 fixed left-0 top-0 h-screen w-64 border-r border-white/10 flex flex-col pt-16 z-30">
+<div class="px-6 py-6 border-b border-white/5">
+<div class="flex items-center gap-3">
+<div class="w-8 h-8 bg-lime-400/20 flex items-center justify-center rounded">
+<span class="material-symbols-outlined text-lime-400" data-weight="fill">security</span>
+</div>
+<div>
+<div class="text-lime-400 font-bold uppercase tracking-widest text-[10px]">Command Center</div>
+<div class="text-[10px] text-neutral-500">AI Engine Active</div>
+</div>
+</div>
+</div>
+<nav class="flex-1 py-4 overflow-y-auto">
+<div class="px-4 mb-2">
+<button class="w-full py-2 bg-primary-container text-on-primary-fixed font-bold rounded text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">bolt</span>
+                        Quick Investigation
+                    </button>
+</div>
+<ul class="space-y-1">
+<li>
+<a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="#">
+<span class="material-symbols-outlined">dashboard</span> Dashboard
+                        </a>
+</li>
+<li>
+<a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="#">
+<span class="material-symbols-outlined">analytics</span> Live Monitor
+                        </a>
+</li>
+<li>
+<a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="#">
+<span class="material-symbols-outlined">rule</span> Rule Engine
+                        </a>
+</li>
+<li>
+<a class="border-l-2 border-lime-400 bg-lime-400/10 text-lime-400 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 transition-all" href="#">
+<span class="material-symbols-outlined">warning</span> Alerts Center
+                        </a>
+</li>
+</ul>
+</nav>
+<div class="p-4 mt-auto border-t border-white/5">
+<a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="#">
+<span class="material-symbols-outlined">contact_support</span> Support
+                </a>
+<a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="#">
+<span class="material-symbols-outlined">logout</span> Sign Out
+                </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="ml-64 flex-1 flex flex-col h-full bg-background overflow-hidden">
+<!-- Filter Bar -->
+<div class="px-grid_margin py-md flex items-center justify-between bg-surface-container-low border-b border-outline-variant/30">
+<div class="flex items-center gap-4">
+<h2 class="font-h2 text-h2 mr-4">Incident Queue</h2>
+<div class="flex bg-surface-container-highest rounded-lg p-1">
+<button class="px-4 py-1.5 text-xs font-semibold bg-primary-container text-on-primary rounded shadow-sm">Pending</button>
+<button class="px-4 py-1.5 text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-colors">Under Investigation</button>
+<button class="px-4 py-1.5 text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-colors">Resolved</button>
+<button class="px-4 py-1.5 text-xs font-semibold text-on-surface-variant hover:text-on-surface transition-colors">False Positive</button>
+</div>
+</div>
+<div class="flex items-center gap-2">
+<span class="text-body-sm text-on-surface-variant">Sort by:</span>
+<select class="bg-transparent border-none text-xs font-bold text-primary focus:ring-0 cursor-pointer">
+<option>Risk Score (High to Low)</option>
+<option>Recent First</option>
+<option>Amount (High to Low)</option>
+</select>
+</div>
+</div>
+<!-- Dashboard Workspace -->
+<div class="flex-1 flex overflow-hidden p-grid_margin gap-grid_gutter">
+<!-- Alert List Pane -->
+<section class="w-1/3 flex flex-col gap-sm overflow-y-auto">
+<!-- Alert Card (Active) -->
+<div class="bg-surface-container-high border-2 border-primary p-md rounded-xl cursor-pointer relative group">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-[10px] font-bold text-primary bg-primary/10 px-2 py-0.5 rounded uppercase">High Risk</span>
+<span class="text-mono text-xs text-on-surface-variant">ID: FR-9012</span>
+</div>
+<div class="text-h3 font-h3 mb-xs">$12,450.00</div>
+<div class="text-body-sm text-secondary mb-md">Unauthorized ACH Transfer</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="text-[10px] uppercase font-bold text-error">98 Score</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">2 mins ago</span>
+</div>
+<div class="absolute right-4 bottom-4 opacity-100">
+<span class="material-symbols-outlined text-primary">arrow_forward_ios</span>
+</div>
+</div>
+<!-- Alert Card -->
+<div class="bg-surface-container border border-outline-variant/30 p-md rounded-xl cursor-pointer hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-[10px] font-bold text-amber-400 bg-amber-400/10 px-2 py-0.5 rounded uppercase">Medium Risk</span>
+<span class="text-mono text-xs text-on-surface-variant">ID: FR-8841</span>
+</div>
+<div class="text-h3 font-h3 mb-xs">$450.22</div>
+<div class="text-body-sm text-secondary mb-md">Velocity Limit Triggered</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-amber-400"></span>
+<span class="text-[10px] uppercase font-bold text-amber-400">64 Score</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">15 mins ago</span>
+</div>
+</div>
+<!-- Alert Card -->
+<div class="bg-surface-container border border-outline-variant/30 p-md rounded-xl cursor-pointer hover:bg-surface-container-high transition-all group">
+<div class="flex justify-between items-start mb-sm">
+<span class="text-[10px] font-bold text-error bg-error/10 px-2 py-0.5 rounded uppercase">High Risk</span>
+<span class="text-mono text-xs text-on-surface-variant">ID: FR-8720</span>
+</div>
+<div class="text-h3 font-h3 mb-xs">$3,100.00</div>
+<div class="text-body-sm text-secondary mb-md">Device Fingerprint Mismatch</div>
+<div class="flex items-center gap-md">
+<div class="flex items-center gap-1">
+<span class="w-1.5 h-1.5 rounded-full bg-error"></span>
+<span class="text-[10px] uppercase font-bold text-error">89 Score</span>
+</div>
+<span class="text-[10px] text-on-surface-variant">42 mins ago</span>
+</div>
+</div>
+</section>
+<!-- Detail Pane -->
+<section class="flex-1 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col overflow-hidden">
+<!-- Detail Header -->
+<div class="p-lg border-b border-outline-variant/30 flex justify-between items-start">
+<div>
+<div class="flex items-center gap-3 mb-sm">
+<h1 class="font-h1 text-h1">FR-9012 Details</h1>
+<span class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-black rounded uppercase tracking-widest">Immediate Review Required</span>
+</div>
+<div class="flex items-center gap-6 text-on-surface-variant text-body-sm">
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_today</span> Oct 24, 2023 14:02:11</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span> Elena Volkov (ID: 99283)</div>
+<div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span> Moscow, RU (VPN Detected)</div>
+</div>
+</div>
+<div class="flex gap-2">
+<button class="bg-primary text-on-primary-fixed font-bold px-4 py-2 rounded flex items-center gap-2 hover:opacity-90 transition-all">
+<span class="material-symbols-outlined text-sm">gavel</span> Confirm Fraud
+                            </button>
+<button class="bg-surface-container-highest text-on-surface font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-surface-bright transition-all">
+<span class="material-symbols-outlined text-sm">cancel</span> Dismiss
+                            </button>
+<button class="border border-outline text-on-surface font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-white/5 transition-all">
+<span class="material-symbols-outlined text-sm">mail</span> Contact User
+                            </button>
+</div>
+</div>
+<!-- Detail Content -->
+<div class="flex-1 overflow-y-auto p-lg grid grid-cols-2 gap-lg">
+<!-- Left Column: Data Tables -->
+<div class="space-y-lg">
+<!-- Transaction Details Card -->
+<div class="bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden">
+<div class="px-md py-sm bg-surface-container-highest/50 border-b border-outline-variant/20 font-bold text-xs uppercase tracking-widest text-primary">Transaction Payload</div>
+<table class="w-full text-xs text-left">
+<tbody><tr class="border-b border-outline-variant/10 hover:bg-white/5">
+<td class="p-sm text-on-surface-variant">Method</td>
+<td class="p-sm font-mono text-on-surface">ACH_TRANSFER_EXPRESS</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-white/5">
+<td class="p-sm text-on-surface-variant">Source Account</td>
+<td class="p-sm font-mono text-on-surface">**** 9012 (Savings)</td>
+</tr>
+<tr class="border-b border-outline-variant/10 hover:bg-white/5">
+<td class="p-sm text-on-surface-variant">Destination</td>
+<td class="p-sm font-mono text-on-surface">GlobalBank - Routing: 021000021</td>
+</tr>
+<tr class="hover:bg-white/5">
+<td class="p-sm text-on-surface-variant">Device IP</td>
+<td class="p-sm font-mono text-error">185.156.173.20 (Blacklisted)</td>
+</tr>
+</tbody></table>
+</div>
+<!-- Rule Violations Card -->
+<div class="bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden">
+<div class="px-md py-sm bg-surface-container-highest/50 border-b border-outline-variant/20 font-bold text-xs uppercase tracking-widest text-error">AI Risk Signals</div>
+<div class="p-md space-y-sm">
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-error" data-weight="fill">warning</span>
+<div>
+<div class="text-xs font-bold text-on-surface">GEO_VELOCITY_IMPOSSIBLE</div>
+<div class="text-[10px] text-on-surface-variant">Login in NY, 15 mins later transaction request from Moscow.</div>
+</div>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-error" data-weight="fill">warning</span>
+<div>
+<div class="text-xs font-bold text-on-surface">UNUSUAL_AMOUNT_SURGE</div>
+<div class="text-[10px] text-on-surface-variant">340% increase compared to 6-month average daily limit.</div>
+</div>
+</div>
+<div class="flex gap-3 items-start">
+<span class="material-symbols-outlined text-amber-400" data-weight="fill">warning</span>
+<div>
+<div class="text-xs font-bold text-on-surface">NEW_DEVICE_REGISTRATION</div>
+<div class="text-[10px] text-on-surface-variant">Account accessed via Tor Exit Node / Proxy service.</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Right Column: Graphs & History -->
+<div class="space-y-lg">
+<!-- Score Card -->
+<div class="relative bg-surface-container-high border border-primary/30 p-lg rounded-xl overflow-hidden">
+<div class="absolute top-0 right-0 p-4 opacity-10">
+<span class="material-symbols-outlined text-6xl text-primary">monitoring</span>
+</div>
+<div class="text-[10px] uppercase font-bold text-primary tracking-widest mb-xs">Fraudrix Probability Score</div>
+<div class="text-display font-display text-primary">98.4</div>
+<div class="text-xs text-on-surface-variant mt-sm flex items-center gap-2">
+<span class="material-symbols-outlined text-sm text-lime-400">verified</span>
+                                    Confidence: 99.1% based on 12 neural network layers
+                                </div>
+</div>
+<!-- User History Mini-Feed -->
+<div class="bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden flex flex-col">
+<div class="px-md py-sm bg-surface-container-highest/50 border-b border-outline-variant/20 font-bold text-xs uppercase tracking-widest text-on-surface">Activity Timeline</div>
+<div class="p-md space-y-md">
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-primary mt-1.5"></div>
+<div class="w-px h-full bg-outline-variant/30 my-1"></div>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant">14:02:11</div>
+<div class="text-xs font-bold">Transaction initiated</div>
+<div class="text-[10px] text-error">Alert FR-9012 triggered</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline-variant mt-1.5"></div>
+<div class="w-px h-full bg-outline-variant/30 my-1"></div>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant">13:58:04</div>
+<div class="text-xs font-bold">New Device Login</div>
+<div class="text-[10px] text-on-surface-variant">Linux/Chrome 118 (M-01-2)</div>
+</div>
+</div>
+<div class="flex gap-4">
+<div class="flex flex-col items-center">
+<div class="w-2 h-2 rounded-full bg-outline-variant mt-1.5"></div>
+</div>
+<div>
+<div class="text-[10px] text-on-surface-variant">Oct 21, 10:22</div>
+<div class="text-xs font-bold text-on-surface-variant">Normal Login session</div>
+<div class="text-[10px] text-on-surface-variant">Success - San Francisco, US</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</section>
+</div>
+</main>
+</div>
+</body></html>

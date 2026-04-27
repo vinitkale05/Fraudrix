@@ -1,0 +1,231 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+      tailwind.config = {
+        darkMode: "class",
+        theme: {
+          extend: {
+            "colors": {
+                    "primary-fixed": "#baf55c",
+                    "outline": "#8d937e",
+                    "on-surface": "#e2e2e2",
+                    "inverse-primary": "#456800",
+                    "secondary-container": "#474744",
+                    "on-primary": "#223600",
+                    "tertiary-fixed": "#dae2fd",
+                    "surface": "#121414",
+                    "tertiary": "#d1d9f3",
+                    "on-primary-fixed": "#121f00",
+                    "on-secondary-fixed-variant": "#474744",
+                    "error-container": "#93000a",
+                    "on-tertiary-fixed": "#131b2e",
+                    "surface-variant": "#333535",
+                    "surface-container-low": "#1a1c1c",
+                    "primary-fixed-dim": "#9fd842",
+                    "outline-variant": "#434937",
+                    "secondary-fixed-dim": "#c8c6c3",
+                    "on-primary-container": "#375500",
+                    "tertiary-fixed-dim": "#bec6e0",
+                    "primary": "#b1eb53",
+                    "secondary": "#c8c6c3",
+                    "surface-container-highest": "#333535",
+                    "on-tertiary-fixed-variant": "#3f465c",
+                    "tertiary-container": "#b5bdd7",
+                    "on-error-container": "#ffdad6",
+                    "on-surface-variant": "#c3c9b2",
+                    "primary-container": "#96ce39",
+                    "on-secondary-fixed": "#1c1c1a",
+                    "error": "#ffb4ab",
+                    "inverse-on-surface": "#2f3131",
+                    "on-error": "#690005",
+                    "surface-bright": "#38393a",
+                    "on-tertiary": "#283044",
+                    "surface-tint": "#9fd842",
+                    "background": "#121414",
+                    "surface-dim": "#121414",
+                    "surface-container-lowest": "#0c0f0f",
+                    "surface-container": "#1e2020",
+                    "on-primary-fixed-variant": "#334f00",
+                    "on-background": "#e2e2e2",
+                    "inverse-surface": "#e2e2e2",
+                    "on-tertiary-container": "#444c62",
+                    "on-secondary-container": "#b7b5b1",
+                    "on-secondary": "#31302e",
+                    "secondary-fixed": "#e5e2de",
+                    "surface-container-high": "#282a2b"
+            },
+            "borderRadius": {
+                    "DEFAULT": "0.125rem",
+                    "lg": "0.25rem",
+                    "xl": "0.5rem",
+                    "full": "0.75rem"
+            },
+            "spacing": {
+                    "grid_margin": "32px",
+                    "md": "16px",
+                    "grid_gutter": "20px",
+                    "lg": "24px",
+                    "grid_columns": "12",
+                    "sm": "8px",
+                    "xs": "4px",
+                    "base": "4px",
+                    "xl": "32px",
+                    "2xl": "48px"
+            },
+            "fontFamily": {
+                    "h1": ["Inter"],
+                    "body-lg": ["Inter"],
+                    "h3": ["Inter"],
+                    "mono": ["monospace"],
+                    "h2": ["Inter"],
+                    "body-sm": ["Inter"],
+                    "body-md": ["Inter"],
+                    "label-md": ["Inter"],
+                    "display": ["Inter"]
+            },
+            "fontSize": {
+                    "h1": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600"}],
+                    "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                    "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                    "mono": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "h2": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                    "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                    "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                    "display": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}]
+            }
+          },
+        },
+      }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        body {
+            background-color: #121414;
+        }
+    </style>
+</head>
+<body class="font-body-md text-on-background selection:bg-primary selection:text-on-primary">
+<!-- TopAppBar from JSON Guidance -->
+<header class="fixed top-0 w-full z-50 flex justify-between items-center px-6 h-16 bg-slate-950 border-b border-white/10 font-inter antialiased tracking-tight flat no shadows">
+<div class="text-xl font-black tracking-tighter text-[#96CE39] uppercase">
+            Fraudrix
+        </div>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-slate-400 font-medium hover:text-white hover:bg-white/5 transition-all active:scale-95 duration-200" href="#">Support</a>
+<a class="text-slate-400 font-medium hover:text-white hover:bg-white/5 transition-all active:scale-95 duration-200" href="#">System Status</a>
+</nav>
+</header>
+<main class="min-h-screen flex items-center justify-center pt-16 pb-12 px-6">
+<!-- Background Decorative Elements -->
+<div class="fixed inset-0 pointer-events-none overflow-hidden">
+<div class="absolute -top-[10%] -right-[5%] w-[40%] h-[40%] bg-primary/5 rounded-full blur-[120px]"></div>
+<div class="absolute -bottom-[10%] -left-[5%] w-[30%] h-[30%] bg-primary/5 rounded-full blur-[100px]"></div>
+</div>
+<!-- Signup Card Container -->
+<div class="relative w-full max-w-[480px]">
+<div class="bg-surface-container-low border border-white/10 rounded-xl p-8 md:p-10 shadow-2xl relative overflow-hidden">
+<!-- AI Visual Accent (Top Border Gradient) -->
+<div class="absolute top-0 left-0 w-full h-[2px] bg-gradient-to-r from-transparent via-primary to-transparent opacity-50"></div>
+<!-- Header Section -->
+<div class="mb-8">
+<div class="flex items-center gap-3 mb-2">
+<span class="material-symbols-outlined text-primary" style="font-variation-settings: 'FILL' 1;">shield_with_heart</span>
+<span class="font-label-md text-primary tracking-widest uppercase">Sentinel Flux v2.4</span>
+</div>
+<h1 class="font-h1 text-on-surface mb-2">Create Sentinel Account</h1>
+<p class="font-body-sm text-on-surface-variant">Access the next generation of financial security intelligence.</p>
+</div>
+<!-- Form Section -->
+<form class="space-y-5">
+<!-- Full Name -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase" for="full-name">Full Name</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">person</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface placeholder:text-outline/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body-sm" id="full-name" name="full-name" placeholder="Enter your legal name" type="text"/>
+</div>
+</div>
+<!-- Work Email -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase" for="work-email">Work Email</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">alternate_email</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface placeholder:text-outline/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body-sm" id="work-email" name="work-email" placeholder="name@company.com" type="email"/>
+</div>
+</div>
+<!-- Company -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase" for="company">Company</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">domain</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface placeholder:text-outline/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body-sm" id="company" name="company" placeholder="Organization name" type="text"/>
+</div>
+</div>
+<!-- Password -->
+<div class="space-y-2">
+<label class="font-label-md text-on-surface-variant uppercase" for="password">Security Password</label>
+<div class="relative">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-outline-variant text-[18px]">lock_open</span>
+<input class="w-full bg-surface-container-lowest border border-outline-variant rounded-lg py-3 pl-10 pr-4 text-on-surface placeholder:text-outline/50 focus:outline-none focus:border-primary focus:ring-1 focus:ring-primary transition-all font-body-sm" id="password" name="password" placeholder="••••••••" type="password"/>
+</div>
+</div>
+<!-- Terms Checkbox -->
+<div class="flex items-start gap-3 py-2">
+<input class="mt-1 w-4 h-4 bg-surface-container-lowest border-outline-variant text-primary rounded focus:ring-offset-surface-container-low focus:ring-primary" id="terms" type="checkbox"/>
+<label class="font-body-sm text-on-surface-variant" for="terms">
+                            I agree to the <a class="text-primary hover:underline" href="#">Service Terms</a> and <a class="text-primary hover:underline" href="#">Security Architecture Protocols</a>.
+                        </label>
+</div>
+<!-- Primary Action -->
+<button class="w-full bg-primary-container text-on-primary font-label-md py-4 rounded-lg uppercase tracking-widest hover:brightness-110 active:scale-[0.98] transition-all flex justify-center items-center gap-2 mt-4 shadow-lg shadow-primary/10" type="submit">
+                        Create Account
+                        <span class="material-symbols-outlined text-[20px]">arrow_forward</span>
+</button>
+</form>
+<!-- Footer Link -->
+<div class="mt-8 text-center border-t border-white/5 pt-6">
+<p class="font-body-sm text-on-surface-variant">
+                        Already part of the network? 
+                        <a class="text-primary font-medium hover:underline inline-flex items-center gap-1 ml-1" href="#">
+                            Back to Login
+                        </a>
+</p>
+</div>
+</div>
+<!-- Risk Intelligence Badge (Aesthetic Detail) -->
+<div class="mt-6 flex justify-center items-center gap-4 px-4 py-3 bg-surface-container-high/50 backdrop-blur-md border border-white/5 rounded-full">
+<div class="flex items-center gap-2">
+<span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span>
+<span class="font-label-md text-on-surface-variant text-[10px] uppercase tracking-tighter">Live Neural Protection Active</span>
+</div>
+<div class="h-3 w-[1px] bg-white/10"></div>
+<div class="flex items-center gap-2">
+<span class="material-symbols-outlined text-primary text-[14px]">encrypted</span>
+<span class="font-label-md text-on-surface-variant text-[10px] uppercase tracking-tighter">AES-256 Cloud Vault</span>
+</div>
+</div>
+</div>
+</main>
+<!-- Footer from JSON Guidance -->
+<footer class="w-full py-8 px-6 flex flex-col md:flex-row justify-between items-center gap-4 bg-slate-950 border-t border-white/5 docked full-width bottom-0">
+<div class="text-xs font-medium uppercase tracking-widest text-slate-500">
+            © 2024 Fraudrix Sentinel Flux. Enterprise Grade Security.
+        </div>
+<div class="flex flex-wrap justify-center gap-6">
+<a class="text-xs font-medium uppercase tracking-widest text-slate-500 hover:text-[#96CE39] transition-colors focus:outline-none" href="#">Privacy Policy</a>
+<a class="text-xs font-medium uppercase tracking-widest text-slate-500 hover:text-[#96CE39] transition-colors focus:outline-none" href="#">Terms of Service</a>
+<a class="text-xs font-medium uppercase tracking-widest text-slate-500 hover:text-[#96CE39] transition-colors focus:outline-none" href="#">Security Architecture</a>
+<a class="text-xs font-medium uppercase tracking-widest text-slate-500 hover:text-[#96CE39] transition-colors focus:outline-none" href="#">Contact Overview</a>
+</div>
+</footer>
+</body></html>

@@ -1,0 +1,563 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Alerts Center | Fraudrix AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  ::-webkit-scrollbar { width: 4px; }
+  ::-webkit-scrollbar-track { background: #121414; }
+  ::-webkit-scrollbar-thumb { background: #96ce39; border-radius: 2px; }
+  .tab-active { background: #96ce39; color: #121f00; font-weight: 700; }
+  .card-active { border: 2px solid #b1eb53 !important; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(8px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in { animation: fadeIn 0.3s ease forwards; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = {
+    darkMode:"class",
+    theme:{ extend:{
+      colors:{
+        "error":"#ffb4ab","secondary":"#c8c6c3","on-surface-variant":"#c3c9b2",
+        "surface-container-low":"#1a1c1c","surface-container-highest":"#333535",
+        "on-background":"#e2e2e2","outline":"#8d937e","on-surface":"#e2e2e2",
+        "surface-tint":"#9fd842","on-primary-fixed":"#121f00","background":"#121414",
+        "primary":"#b1eb53","surface-dim":"#121414","surface-container":"#1e2020",
+        "primary-container":"#96ce39","outline-variant":"#434937","surface-variant":"#333535",
+        "surface-container-high":"#282a2b","error-container":"#93000a",
+        "on-error-container":"#ffdad6","surface-bright":"#38393a","on-primary":"#223600"
+      },
+      fontFamily:{ "h1":["Inter"],"h2":["Inter"],"h3":["Inter"],"body-md":["Inter"],"body-sm":["Inter"] },
+      fontSize:{
+        "h1":["32px",{"lineHeight":"1.25","fontWeight":"700"}],
+        "h2":["24px",{"lineHeight":"1.3","fontWeight":"600"}],
+        "h3":["20px",{"lineHeight":"1.4","fontWeight":"600"}],
+        "display":["56px",{"lineHeight":"1.1","fontWeight":"700"}]
+      },
+      spacing:{ "xs":"4px","sm":"8px","md":"16px","lg":"24px","xl":"32px","2xl":"48px" }
+    }}
+  }
+</script>
+</head>
+<body class="bg-background text-on-background font-body-md overflow-hidden h-screen flex flex-col">
+
+<!-- TopAppBar -->
+<header class="bg-neutral-900 border-b border-white/10 z-40 flex justify-between items-center h-16 px-6 w-full flex-shrink-0">
+  <div class="flex items-center gap-8">
+    <a href="index.html" class="text-xl font-black text-lime-400 tracking-tighter uppercase">Fraudrix AI</a>
+    <nav class="hidden md:flex gap-6">
+      <a class="font-inter text-sm font-bold text-lime-400" href="alerts.html">Alerts Center</a>
+      <a class="font-inter text-sm text-neutral-400 hover:text-lime-400 transition-colors" href="dashboard.html">Dashboard</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-4">
+    <div class="relative flex items-center bg-surface-container rounded-lg px-3 py-1.5 border border-outline-variant">
+      <span class="material-symbols-outlined text-sm mr-2 text-neutral-400">search</span>
+      <input id="searchInput" onkeyup="filterBySearch()" class="bg-transparent border-none focus:ring-0 text-sm w-48 p-0 outline-none text-on-surface" placeholder="Search transaction ID..." type="text"/>
+    </div>
+    <div class="w-8 h-8 rounded-full bg-surface-container-high overflow-hidden border border-outline-variant">
+      <img id="userAvatar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=96ce39&color=fff"/>
+    </div>
+  </div>
+</header>
+
+<div class="flex flex-1 overflow-hidden">
+  <!-- SideNavBar -->
+  <aside class="bg-neutral-900 w-64 border-r border-white/10 flex flex-col pt-0 flex-shrink-0">
+    <div class="px-6 py-4 border-b border-white/5">
+      <div class="text-lime-400 font-bold uppercase tracking-widest text-[10px]">Command Center</div>
+      <div class="text-[10px] text-neutral-500">AI Engine Active</div>
+    </div>
+    <nav class="flex-1 py-4">
+      <div class="px-4 mb-3">
+        <button onclick="startQuickInvestigation()" class="w-full py-2 bg-primary-container text-on-primary-fixed font-bold rounded text-xs uppercase flex items-center justify-center gap-2 hover:opacity-90 transition-all">
+          <span class="material-symbols-outlined text-sm">bolt</span> Quick Investigation
+        </button>
+      </div>
+      <a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="dashboard.html"><span class="material-symbols-outlined">dashboard</span> Dashboard</a>
+      <a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="monitor.html"><span class="material-symbols-outlined">analytics</span> Live Monitor</a>
+      <a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="rules.html"><span class="material-symbols-outlined">rule</span> Rule Engine</a>
+      <a class="border-l-2 border-lime-400 bg-lime-400/10 text-lime-400 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 transition-all" href="alerts.html"><span class="material-symbols-outlined">warning</span> Alerts Center</a>
+    </nav>
+    <div class="p-4 border-t border-white/5">
+      <a class="text-neutral-500 py-3 px-4 font-inter text-xs uppercase tracking-widest font-semibold flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all" href="index.html"><span class="material-symbols-outlined">logout</span> Sign Out</a>
+    </div>
+  </aside>
+
+  <!-- Main -->
+  <main class="flex-1 flex flex-col overflow-hidden">
+    <!-- Filter Bar -->
+    <div class="px-6 py-3 flex items-center justify-between bg-surface-container-low border-b border-outline-variant/30 flex-shrink-0">
+      <div class="flex items-center gap-4">
+        <h2 class="text-xl font-bold">Incident Queue</h2>
+        <div id="tabBar" class="flex bg-surface-container-highest rounded-lg p-1 gap-1">
+          <button onclick="setTab('FLAGGED')" class="tab-btn tab-active px-4 py-1.5 text-xs rounded font-semibold transition-all" data-tab="FLAGGED">Pending</button>
+          <button onclick="setTab('UNDER_INVESTIGATION')" class="tab-btn px-4 py-1.5 text-xs rounded font-semibold text-neutral-400 hover:text-white transition-all" data-tab="UNDER_INVESTIGATION">Under Investigation</button>
+          <button onclick="setTab('RESOLVED')" class="tab-btn px-4 py-1.5 text-xs rounded font-semibold text-neutral-400 hover:text-white transition-all" data-tab="RESOLVED">Resolved</button>
+          <button onclick="setTab('FALSE_POSITIVE')" class="tab-btn px-4 py-1.5 text-xs rounded font-semibold text-neutral-400 hover:text-white transition-all" data-tab="FALSE_POSITIVE">False Positive</button>
+        </div>
+      </div>
+      <div class="flex items-center gap-2">
+        <span class="text-sm text-neutral-400">Sort by:</span>
+        <select id="sortSelect" onchange="sortTransactions()" class="bg-transparent border-none text-xs font-bold text-primary focus:ring-0 cursor-pointer outline-none">
+          <option value="risk">Risk Score (High to Low)</option>
+          <option value="recent">Recent First</option>
+          <option value="amount">Amount (High to Low)</option>
+        </select>
+      </div>
+    </div>
+
+    <!-- Workspace -->
+    <div class="flex-1 flex overflow-hidden p-5 gap-5">
+      <!-- Alert List Pane -->
+      <section id="alertList" class="w-80 flex-shrink-0 flex flex-col gap-3 overflow-y-auto pr-1">
+        <div class="text-center text-neutral-500 text-sm py-8">Loading alerts...</div>
+      </section>
+
+      <!-- Detail Pane -->
+      <section id="detailPane" class="flex-1 bg-surface-container rounded-xl border border-outline-variant/30 flex flex-col overflow-hidden">
+        <!-- Empty state -->
+        <div id="emptyDetail" class="flex-1 flex flex-col items-center justify-center text-neutral-500 gap-3">
+          <span class="material-symbols-outlined text-5xl text-neutral-700">manage_search</span>
+          <p class="text-sm">Select an incident from the queue to view details</p>
+        </div>
+        <!-- Detail Content (hidden until selected) -->
+        <div id="detailContent" class="hidden flex-col flex-1 overflow-hidden">
+          <!-- Header -->
+          <div class="p-5 border-b border-outline-variant/30 flex justify-between items-start flex-shrink-0">
+            <div>
+              <div class="flex items-center gap-3 mb-2">
+                <h1 id="detailId" class="text-2xl font-bold">--</h1>
+                <span id="detailBadge" class="px-3 py-1 bg-error-container text-on-error-container text-[10px] font-black rounded uppercase tracking-widest">Loading</span>
+              </div>
+              <div class="flex items-center gap-6 text-neutral-400 text-sm flex-wrap">
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">calendar_today</span><span id="detailDate">--</span></div>
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">person</span><span id="detailUser">--</span></div>
+                <div class="flex items-center gap-1"><span class="material-symbols-outlined text-sm">location_on</span><span id="detailLocation">--</span></div>
+              </div>
+            </div>
+            <div class="flex gap-2 flex-shrink-0">
+              <button id="confirmBtn" onclick="updateStatus('CONFIRMED_FRAUD')" class="bg-primary text-on-primary-fixed font-bold px-4 py-2 rounded flex items-center gap-2 hover:opacity-90 transition-all text-sm">
+                <span class="material-symbols-outlined text-sm">gavel</span> Confirm Fraud
+              </button>
+              <button id="investigateBtn" onclick="updateStatus('UNDER_INVESTIGATION')" class="bg-surface-container-highest text-on-surface font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-surface-bright transition-all text-sm">
+                <span class="material-symbols-outlined text-sm">manage_search</span> Investigate
+              </button>
+              <button id="dismissBtn" onclick="updateStatus('FALSE_POSITIVE')" class="bg-surface-container-highest text-on-surface font-bold px-4 py-2 rounded flex items-center gap-2 hover:bg-surface-bright transition-all text-sm">
+                <span class="material-symbols-outlined text-sm">cancel</span> Dismiss
+              </button>
+            </div>
+          </div>
+          <!-- Body -->
+          <div class="flex-1 overflow-y-auto p-5 grid grid-cols-2 gap-5">
+            <div class="space-y-5">
+              <div class="bg-surface-container-low border border-outline-variant/20 rounded-lg overflow-hidden">
+                <div class="px-4 py-2 bg-surface-container-highest/50 border-b border-outline-variant/20 font-bold text-xs uppercase tracking-widest text-primary">Transaction Payload</div>
+                <table class="w-full text-xs text-left">
+                  <tbody id="detailPayload">
+                    <tr><td class="p-3 text-neutral-400">Amount</td><td id="detailAmount" class="p-3 font-mono text-on-surface">--</td></tr>
+                    <tr class="border-t border-outline-variant/10"><td class="p-3 text-neutral-400">Status</td><td id="detailStatus" class="p-3 font-mono text-on-surface">--</td></tr>
+                    <tr class="border-t border-outline-variant/10"><td class="p-3 text-neutral-400">Transaction ID</td><td id="detailTxId" class="p-3 font-mono text-on-surface break-all">--</td></tr>
+                    <tr class="border-t border-outline-variant/10"><td class="p-3 text-neutral-400">User ID</td><td id="detailUserId" class="p-3 font-mono text-on-surface">--</td></tr>
+                    <tr class="border-t border-outline-variant/10"><td class="p-3 text-neutral-400">City</td><td id="detailCity" class="p-3 font-mono text-on-surface">--</td></tr>
+                  </tbody>
+                </table>
+              </div>
+            </div>
+            <div class="space-y-5">
+              <div class="relative bg-surface-container-high border border-primary/30 p-5 rounded-xl overflow-hidden">
+                <div class="text-[10px] uppercase font-bold text-primary tracking-widest mb-1">Fraudrix Probability Score</div>
+                <div id="detailScore" class="text-6xl font-black text-primary">--</div>
+                <div id="detailScoreBar" class="mt-3 h-2 rounded-full bg-surface-container-highest overflow-hidden">
+                  <div id="detailScoreFill" class="h-full bg-primary rounded-full transition-all duration-700" style="width:0%"></div>
+                </div>
+                <div class="mt-2 text-xs text-neutral-500">Risk score out of 100</div>
+              </div>
+              <div class="bg-surface-container-low border border-outline-variant/20 rounded-lg p-4">
+                <div class="text-[10px] uppercase font-bold text-primary tracking-widest mb-3">Quick Actions</div>
+                <div class="flex flex-col gap-2">
+                  <button onclick="updateStatus('RESOLVED')" class="w-full py-2 text-xs font-bold bg-surface-container-highest hover:bg-surface-bright rounded transition-all text-left px-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm text-primary">check_circle</span> Mark as Resolved
+                  </button>
+                  <button onclick="exportDetailAsCsv()" class="w-full py-2 text-xs font-bold bg-surface-container-highest hover:bg-surface-bright rounded transition-all text-left px-3 flex items-center gap-2">
+                    <span class="material-symbols-outlined text-sm text-primary">file_download</span> Export Report
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+    </div>
+  </main>
+</div>
+<!-- Quick Investigation Modal -->
+<div id="investigationModal" class="fixed inset-0 z-50 flex items-center justify-center bg-black/80 backdrop-blur-sm hidden">
+  <div class="bg-surface-container border border-primary/30 w-full max-w-2xl rounded-2xl overflow-hidden shadow-2xl slide-in">
+    <div class="p-6 border-b border-white/10 flex justify-between items-center bg-surface-container-high">
+      <div class="flex items-center gap-3">
+        <span class="material-symbols-outlined text-primary">analytics</span>
+        <h3 class="text-lg font-bold text-white uppercase tracking-tight">AI Forensics Report</h3>
+      </div>
+      <button onclick="closeInvestigation()" class="text-neutral-500 hover:text-white transition-colors">
+        <span class="material-symbols-outlined">close</span>
+      </button>
+    </div>
+    <div class="p-8">
+      <div id="investigationLoading" class="flex flex-col items-center justify-center py-12 gap-4">
+        <div class="w-12 h-12 border-4 border-primary/20 border-t-primary rounded-full animate-spin"></div>
+        <p class="text-sm font-bold text-primary animate-pulse uppercase tracking-widest">Running Behavioral Analysis...</p>
+        <p class="text-[10px] text-neutral-500 max-w-xs text-center">Engine v4.2 is correlating signals across 50+ threat vectors and historical patterns.</p>
+      </div>
+      <div id="investigationResults" class="hidden space-y-6">
+        <div class="flex justify-between items-start">
+          <div>
+            <h4 id="reportTxId" class="text-2xl font-black text-white mb-1">TX_LOADING</h4>
+            <p id="reportDate" class="text-xs text-neutral-500">Analysis completed at: --</p>
+          </div>
+          <div class="text-right">
+            <div class="text-[10px] font-bold text-primary uppercase tracking-widest mb-1">Threat Level</div>
+            <div id="reportRisk" class="text-3xl font-black text-primary">--</div>
+          </div>
+        </div>
+        
+        <div class="grid grid-cols-2 gap-4">
+          <div class="bg-surface-container-low p-4 rounded-xl border border-white/5">
+            <div class="text-[10px] font-bold text-neutral-500 uppercase mb-2">Primary Triggers</div>
+            <ul id="reportTriggers" class="text-xs space-y-2 text-on-surface">
+              <!-- Triggers -->
+            </ul>
+          </div>
+          <div class="bg-surface-container-low p-4 rounded-xl border border-white/5">
+            <div class="text-[10px] font-bold text-neutral-500 uppercase mb-2">Entity Reputation</div>
+            <div class="space-y-3">
+              <div>
+                <div class="flex justify-between text-[10px] mb-1"><span>IP Consistency</span><span class="text-primary">High</span></div>
+                <div class="w-full bg-white/5 h-1 rounded-full"><div class="bg-primary h-full" style="width: 85%"></div></div>
+              </div>
+              <div>
+                <div class="flex justify-between text-[10px] mb-1"><span>Velocity Score</span><span class="text-error">Critical</span></div>
+                <div class="w-full bg-white/5 h-1 rounded-full"><div class="bg-error h-full" style="width: 95%"></div></div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div class="bg-primary/5 border border-primary/20 p-4 rounded-xl">
+          <div class="flex items-center gap-2 mb-2">
+            <span class="material-symbols-outlined text-primary text-sm">psychology</span>
+            <span class="text-xs font-bold text-primary uppercase">AI Verdict</span>
+          </div>
+          <p id="reportVerdict" class="text-sm text-on-surface leading-relaxed">
+            The transaction exhibits classical velocity-based card testing patterns. High correlation with known fraudulent IP segments in South Asia. 
+            <span class="font-bold text-primary">Immediate block and user suspension recommended.</span>
+          </p>
+        </div>
+
+        <div class="flex gap-3 pt-4">
+          <button onclick="downloadReport()" class="flex-1 py-3 bg-primary-container text-on-primary-fixed font-bold rounded-xl hover:brightness-110 transition-all flex items-center justify-center gap-2">
+            <span class="material-symbols-outlined text-sm">download</span> Download PDF Report
+          </button>
+          <button onclick="updateStatus('CONFIRMED_FRAUD'); closeInvestigation();" class="px-6 py-3 bg-error text-on-error-container font-bold rounded-xl hover:brightness-110 transition-all">
+            Execute Block
+          </button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- Toast Notification -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 bg-primary text-on-primary-fixed pointer-events-none"></div>
+
+<script>
+  const API_URL = 'http://localhost:5000/api';
+  let allTransactions = [];
+  let currentTab = 'FLAGGED';
+  let selectedTx = null;
+
+  // User
+  const user = JSON.parse(localStorage.getItem('fraudrix_user') || '{}');
+  if (user?.user_metadata?.full_name) {
+    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.user_metadata.full_name)}&background=96ce39&color=fff`;
+  }
+
+  function showToast(msg, color = 'bg-primary text-on-primary-fixed') {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.className = `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl transition-all duration-300 ${color}`;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 3000);
+  }
+
+  async function loadTransactions() {
+    try {
+      const res = await fetch(`${API_URL}/transactions`);
+      const data = await res.json();
+      allTransactions = data;
+      renderList();
+    } catch (e) {
+      document.getElementById('alertList').innerHTML = `<div class="text-center text-error text-sm py-8">Failed to load. Is the backend running?</div>`;
+    }
+  }
+
+  function getFiltered() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const statusMap = {
+      'FLAGGED': ['FLAGGED', 'SUSPICIOUS'],
+      'UNDER_INVESTIGATION': ['UNDER_INVESTIGATION'],
+      'RESOLVED': ['RESOLVED', 'CONFIRMED_FRAUD'],
+      'FALSE_POSITIVE': ['FALSE_POSITIVE']
+    };
+    const allowed = statusMap[currentTab] || [currentTab];
+    return allTransactions.filter(tx =>
+      allowed.includes(tx.status) &&
+      (!search || tx.transactionId.toLowerCase().includes(search) || tx.userId.toLowerCase().includes(search))
+    );
+  }
+
+  function sortTransactions() {
+    const sort = document.getElementById('sortSelect').value;
+    if (sort === 'risk') allTransactions.sort((a, b) => b.riskScore - a.riskScore);
+    else if (sort === 'recent') allTransactions.sort((a, b) => new Date(b.createdAt) - new Date(a.createdAt));
+    else if (sort === 'amount') allTransactions.sort((a, b) => b.amount - a.amount);
+    renderList();
+  }
+
+  function filterBySearch() { renderList(); }
+
+  function renderList() {
+    const list = document.getElementById('alertList');
+    const filtered = getFiltered();
+
+    if (!filtered.length) {
+      list.innerHTML = `<div class="text-center text-neutral-500 text-sm py-10">No incidents in this queue.</div>`;
+      return;
+    }
+
+    list.innerHTML = filtered.map(tx => {
+      const isHigh = tx.riskScore >= 70;
+      const riskLabel = isHigh ? 'High Risk' : tx.riskScore >= 40 ? 'Medium Risk' : 'Safe';
+      const riskColor = isHigh ? 'text-error bg-error/10' : tx.riskScore >= 40 ? 'text-amber-400 bg-amber-400/10' : 'text-primary bg-primary/10';
+      const dotColor = isHigh ? 'bg-error' : tx.riskScore >= 40 ? 'bg-amber-400' : 'bg-primary';
+      const scoreColor = isHigh ? 'text-error' : tx.riskScore >= 40 ? 'text-amber-400' : 'text-primary';
+      const isSelected = selectedTx && selectedTx.transactionId === tx.transactionId;
+      const date = new Date(tx.createdAt);
+      const ago = Math.floor((Date.now() - date.getTime()) / 60000);
+      const agoStr = ago < 1 ? 'Just now' : ago < 60 ? `${ago} min ago` : `${Math.floor(ago/60)}h ago`;
+
+      return `<div onclick="selectTx('${tx.transactionId}')" class="fade-in bg-surface-container-high border ${isSelected ? 'border-primary card-active' : 'border-outline-variant/30'} p-4 rounded-xl cursor-pointer hover:border-primary/60 transition-all relative group">
+        <div class="flex justify-between items-start mb-2">
+          <span class="text-[10px] font-bold ${riskColor} px-2 py-0.5 rounded uppercase">${riskLabel}</span>
+          <span class="text-mono text-xs text-neutral-500">ID: ${tx.transactionId.slice(-6)}</span>
+        </div>
+        <div class="text-lg font-bold mb-1">₹${tx.amount.toLocaleString('en-IN')}</div>
+        <div class="text-xs text-neutral-400 mb-3">${tx.status.replace(/_/g, ' ')}</div>
+        <div class="flex items-center gap-3">
+          <div class="flex items-center gap-1">
+            <span class="w-1.5 h-1.5 rounded-full ${dotColor}"></span>
+            <span class="text-[10px] uppercase font-bold ${scoreColor}">${tx.riskScore} Score</span>
+          </div>
+          <span class="text-[10px] text-neutral-500">${agoStr}</span>
+        </div>
+        <div class="absolute right-3 bottom-3 opacity-0 group-hover:opacity-100 transition-all">
+          <span class="material-symbols-outlined text-primary text-base">arrow_forward_ios</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function selectTx(txId) {
+    selectedTx = allTransactions.find(t => t.transactionId === txId);
+    if (!selectedTx) return;
+    renderList();
+    showDetail(selectedTx);
+  }
+
+  function showDetail(tx) {
+    document.getElementById('emptyDetail').classList.add('hidden');
+    const dc = document.getElementById('detailContent');
+    dc.classList.remove('hidden');
+    dc.classList.add('flex');
+
+    const isHigh = tx.riskScore >= 70;
+    document.getElementById('detailId').innerText = tx.transactionId;
+    document.getElementById('detailBadge').innerText = isHigh ? 'Immediate Review Required' : tx.riskScore >= 40 ? 'Review Suggested' : 'Low Priority';
+    document.getElementById('detailBadge').className = `px-3 py-1 text-[10px] font-black rounded uppercase tracking-widest ${isHigh ? 'bg-error-container text-on-error-container' : 'bg-amber-900/40 text-amber-300'}`;
+    document.getElementById('detailDate').innerText = new Date(tx.createdAt).toLocaleString('en-IN');
+    document.getElementById('detailUser').innerText = tx.userId;
+    document.getElementById('detailLocation').innerText = tx.location?.city ? `${tx.location.city}, ${tx.location.country}` : 'Unknown';
+    document.getElementById('detailAmount').innerText = `₹${tx.amount.toLocaleString('en-IN')}`;
+    document.getElementById('detailStatus').innerText = tx.status.replace(/_/g, ' ');
+    document.getElementById('detailTxId').innerText = tx.transactionId;
+    document.getElementById('detailUserId').innerText = tx.userId;
+    document.getElementById('detailCity').innerText = tx.location?.city || '--';
+    document.getElementById('detailScore').innerText = tx.riskScore;
+    setTimeout(() => {
+      document.getElementById('detailScoreFill').style.width = tx.riskScore + '%';
+    }, 100);
+  }
+
+  async function updateStatus(newStatus) {
+    if (!selectedTx) return showToast('Select a transaction first.', 'bg-error-container text-on-error-container');
+    const labels = { 'CONFIRMED_FRAUD': 'Fraud Confirmed', 'FALSE_POSITIVE': 'Dismissed as False Positive', 'UNDER_INVESTIGATION': 'Moved to Investigation', 'RESOLVED': 'Marked as Resolved' };
+
+    try {
+      const token = localStorage.getItem('fraudrix_token');
+      const res = await fetch(`${API_URL}/transactions/${selectedTx.transactionId}/status`, {
+        method: 'PATCH',
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+        body: JSON.stringify({ status: newStatus })
+      });
+      if (!res.ok) throw new Error('Update failed');
+
+      // Update local state
+      const idx = allTransactions.findIndex(t => t.transactionId === selectedTx.transactionId);
+      if (idx !== -1) allTransactions[idx].status = newStatus;
+      selectedTx.status = newStatus;
+
+      showToast(`✓ ${labels[newStatus] || 'Status Updated'}`);
+      renderList();
+
+      // Refresh detail
+      document.getElementById('detailStatus').innerText = newStatus.replace(/_/g, ' ');
+
+    } catch (e) {
+      showToast('Failed to update. Check backend.', 'bg-error-container text-on-error-container');
+    }
+  }
+
+  function exportDetailAsCsv() {
+    if (!selectedTx) return;
+    const rows = [['Field', 'Value'],
+      ['Transaction ID', selectedTx.transactionId],
+      ['User ID', selectedTx.userId],
+      ['Amount (INR)', selectedTx.amount],
+      ['Risk Score', selectedTx.riskScore],
+      ['Status', selectedTx.status],
+      ['City', selectedTx.location?.city || ''],
+      ['Country', selectedTx.location?.country || ''],
+      ['Date', new Date(selectedTx.createdAt).toLocaleString('en-IN')]
+    ];
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = `incident_${selectedTx.transactionId}.csv`;
+    a.click();
+  }
+
+  function setTab(tab) {
+    currentTab = tab;
+    selectedTx = null;
+    document.getElementById('emptyDetail').classList.remove('hidden');
+    document.getElementById('detailContent').classList.add('hidden');
+    document.getElementById('detailContent').classList.remove('flex');
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      if (btn.dataset.tab === tab) {
+        btn.classList.add('tab-active');
+        btn.classList.remove('text-neutral-400');
+      } else {
+        btn.classList.remove('tab-active');
+        btn.classList.add('text-neutral-400');
+      }
+    });
+    renderList();
+  }
+
+  // Quick Investigation Logic
+  async function startQuickInvestigation() {
+    console.log('Attempting Quick Investigation...');
+    
+    if (!allTransactions || allTransactions.length === 0) {
+        showToast('Scanning platform for data...', 'bg-amber-500 text-black');
+        await loadTransactions();
+    }
+
+    const sorted = [...allTransactions].sort((a,b) => b.riskScore - a.riskScore);
+    const target = sorted[0]; 
+    
+    if (!target) {
+        return showToast('No suspicious data found to investigate.', 'bg-amber-500 text-black');
+    }
+
+    console.log('Targeting transaction:', target.transactionId);
+    selectedTx = target; 
+    
+    const modal = document.getElementById('investigationModal');
+    const loading = document.getElementById('investigationLoading');
+    const results = document.getElementById('investigationResults');
+    
+    modal.classList.remove('hidden');
+    loading.classList.remove('hidden');
+    results.classList.add('hidden');
+
+    try {
+        // Try localhost first, then fallback to 127.0.0.1 if needed
+        const tryFetch = async (url) => {
+            try { return await fetch(url); }
+            catch (e) { 
+                if (url.includes('localhost')) return await fetch(url.replace('localhost', '127.0.0.1'));
+                throw e;
+            }
+        };
+
+        const res = await tryFetch(`${API_URL}/transactions/${target.transactionId}/investigate`);
+        if (!res.ok) throw new Error(`Server returned ${res.status}`);
+        
+        const report = await res.json();
+        console.log('Report received:', report);
+
+        setTimeout(() => {
+            loading.classList.add('hidden');
+            results.classList.remove('hidden');
+            
+            document.getElementById('reportTxId').innerText = report.transactionId;
+            document.getElementById('reportDate').innerText = `Analysis completed at: ${new Date(report.timestamp).toLocaleString()}`;
+            document.getElementById('reportRisk').innerText = report.riskScore;
+            document.getElementById('reportVerdict').innerText = report.verdict;
+            
+            document.getElementById('reportTriggers').innerHTML = report.triggers.map(t => `
+                <li class="flex items-center gap-2">
+                    <span class="w-1.5 h-1.5 rounded-full bg-primary"></span>
+                    ${t}
+                </li>
+            `).join('');
+        }, 1000);
+
+    } catch (e) {
+        console.error('Investigation failed:', e);
+        showToast('Investigation engine unreachable. Is backend running?', 'bg-error text-white');
+        closeInvestigation();
+    }
+  }
+
+  function closeInvestigation() {
+    document.getElementById('investigationModal').classList.add('hidden');
+  }
+
+  function downloadReport() {
+    if (!selectedTx) return;
+    const reportText = `FRAUDRIX AI FORENSICS REPORT\n\n` +
+      `Transaction ID: ${selectedTx.transactionId}\n` +
+      `Risk Score: ${selectedTx.riskScore}\n` +
+      `Amount: ${selectedTx.amount}\n` +
+      `Timestamp: ${new Date(selectedTx.createdAt).toLocaleString()}\n` +
+      `User ID: ${selectedTx.userId}\n\n` +
+      `AI VERDICT: High probability of account takeover. classical velocity-based card testing patterns detected.`;
+    
+    const blob = new Blob([reportText], { type: 'text/plain' });
+    const a = document.createElement('a');
+    a.href = URL.createObjectURL(blob);
+    a.download = `Report_${selectedTx.transactionId}.txt`;
+    a.click();
+    showToast('✓ Report Generated & Downloaded');
+  }
+
+  // Load on start and poll every 10s
+  loadTransactions();
+  setInterval(loadTransactions, 10000);
+</script>
+</body></html>

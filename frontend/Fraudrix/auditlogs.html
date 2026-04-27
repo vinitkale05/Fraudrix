@@ -1,0 +1,251 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Audit Logs | Fraudrix AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  .material-symbols-outlined { font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24; }
+  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #96ce39; border-radius: 2px; }
+  @keyframes fadeIn { from { opacity:0; transform:translateY(6px); } to { opacity:1; transform:translateY(0); } }
+  .fade-in { animation: fadeIn 0.3s ease forwards; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = { darkMode:"class", theme:{ extend:{
+    colors:{ "error":"#ffb4ab","secondary":"#c8c6c3","surface-container-low":"#1a1c1c","surface-container-highest":"#333535","on-background":"#e2e2e2","outline":"#8d937e","on-surface":"#e2e2e2","surface-tint":"#9fd842","on-primary-fixed":"#121f00","background":"#121414","primary":"#b1eb53","surface-container":"#1e2020","primary-container":"#96ce39","outline-variant":"#434937","surface-variant":"#333535","surface-container-high":"#282a2b","error-container":"#93000a","on-error-container":"#ffdad6" },
+    fontFamily:{"h1":["Inter"],"h2":["Inter"],"body-md":["Inter"]},
+    fontSize:{"h1":["32px",{"lineHeight":"1.25","fontWeight":"700"}],"h2":["24px",{"lineHeight":"1.3","fontWeight":"600"}]},
+    spacing:{"xs":"4px","sm":"8px","md":"16px","lg":"24px","xl":"32px","2xl":"48px"}
+  }}}
+</script>
+</head>
+<body class="bg-background text-on-background min-h-screen">
+
+<!-- Header -->
+<header class="fixed top-0 z-40 w-full h-16 px-6 bg-neutral-900 border-b border-white/10 flex justify-between items-center">
+  <div class="flex items-center gap-8">
+    <a href="index.html" class="text-xl font-black text-lime-400 tracking-tighter uppercase">Fraudrix AI</a>
+    <nav class="hidden md:flex items-center gap-6">
+      <a class="text-neutral-400 font-inter text-sm hover:text-lime-400 transition-colors" href="dashboard.html">Overview</a>
+      <a class="text-neutral-400 font-inter text-sm hover:text-lime-400 transition-colors" href="integrations.html">Integrations</a>
+      <a class="text-lime-400 font-bold text-sm" href="auditlogs.html">Audit Logs</a>
+    </nav>
+  </div>
+  <div class="flex items-center gap-3">
+    <button onclick="exportLogs()" class="px-4 py-1.5 bg-primary-container text-on-primary-fixed font-bold text-xs rounded-lg hover:brightness-110 transition-all flex items-center gap-1.5">
+      <span class="material-symbols-outlined text-sm">file_download</span> Export Logs
+    </button>
+    <div class="w-8 h-8 rounded-full overflow-hidden border border-outline-variant">
+      <img id="userAvatar" class="w-full h-full object-cover" src="https://ui-avatars.com/api/?name=User&background=96ce39&color=fff"/>
+    </div>
+  </div>
+</header>
+
+<!-- Sidebar -->
+<aside class="fixed left-0 top-0 h-screen w-64 bg-neutral-900 border-r border-white/10 flex flex-col pt-16 z-30">
+  <div class="p-6">
+    <div class="text-lime-400 font-bold uppercase text-[10px] tracking-widest mb-1">Command Center</div>
+    <p class="text-[10px] text-neutral-500 font-semibold tracking-widest uppercase mb-4">AI Engine Active</p>
+    <nav class="flex flex-col gap-1">
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="dashboard.html"><span class="material-symbols-outlined text-lg">dashboard</span>Dashboard</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="monitor.html"><span class="material-symbols-outlined text-lg">analytics</span>Live Monitor</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="rules.html"><span class="material-symbols-outlined text-lg">rule</span>Rule Engine</a>
+      <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="alerts.html"><span class="material-symbols-outlined text-lg">warning</span>Alerts Center</a>
+      <a class="border-l-2 border-lime-400 bg-lime-400/10 text-lime-400 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold transition-all" href="auditlogs.html"><span class="material-symbols-outlined text-lg">history</span>Audit Logs</a>
+    </nav>
+  </div>
+  <div class="mt-auto p-6 border-t border-white/5">
+    <a class="text-neutral-500 py-3 px-4 flex items-center gap-3 text-xs uppercase tracking-widest font-semibold hover:bg-white/5 hover:text-neutral-200 transition-all" href="index.html"><span class="material-symbols-outlined text-lg">logout</span>Sign Out</a>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="pl-64 pt-16 min-h-screen">
+  <div class="p-8 max-w-7xl mx-auto">
+    <!-- Page Header -->
+    <div class="flex justify-between items-end mb-8">
+      <div>
+        <h1 class="text-3xl font-bold text-on-surface mb-1">Audit Logs</h1>
+        <p class="text-neutral-500 text-sm">Complete immutable trail of all system events, analyst actions, and automated decisions.</p>
+      </div>
+      <div id="liveIndicator" class="flex items-center gap-2 text-xs font-bold text-primary">
+        <span class="w-2 h-2 rounded-full bg-primary animate-pulse"></span> LIVE
+      </div>
+    </div>
+
+    <!-- Stats Row -->
+    <div class="grid grid-cols-4 gap-4 mb-8">
+      <div class="bg-surface-container border border-outline-variant/30 rounded-xl p-5">
+        <div class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Total Events</div>
+        <div id="statTotal" class="text-3xl font-black text-on-surface">--</div>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-xl p-5">
+        <div class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Fraud Confirmed</div>
+        <div id="statFraud" class="text-3xl font-black text-error">--</div>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-xl p-5">
+        <div class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Flagged</div>
+        <div id="statFlagged" class="text-3xl font-black text-amber-400">--</div>
+      </div>
+      <div class="bg-surface-container border border-outline-variant/30 rounded-xl p-5">
+        <div class="text-xs text-neutral-500 uppercase tracking-widest mb-2">Safe</div>
+        <div id="statSafe" class="text-3xl font-black text-primary">--</div>
+      </div>
+    </div>
+
+    <!-- Controls -->
+    <div class="flex gap-3 mb-5 flex-wrap">
+      <div class="flex-1 relative min-w-48">
+        <span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 text-sm">search</span>
+        <input id="searchInput" oninput="applyFilters()" placeholder="Search by transaction ID, user or action..." class="w-full pl-10 pr-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm outline-none focus:border-primary transition-colors"/>
+      </div>
+      <select id="eventFilter" onchange="applyFilters()" class="bg-surface-container border border-outline-variant rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary text-on-surface">
+        <option value="">All Events</option>
+        <option value="FLAGGED">Flagged</option>
+        <option value="SAFE">Safe</option>
+        <option value="CONFIRMED_FRAUD">Fraud Confirmed</option>
+        <option value="UNDER_INVESTIGATION">Under Investigation</option>
+        <option value="RESOLVED">Resolved</option>
+        <option value="FALSE_POSITIVE">False Positive</option>
+      </select>
+      <select id="dateFilter" onchange="applyFilters()" class="bg-surface-container border border-outline-variant rounded-lg px-3 py-2.5 text-sm outline-none focus:border-primary text-on-surface">
+        <option value="all">All Time</option>
+        <option value="1h">Last 1 Hour</option>
+        <option value="24h">Last 24 Hours</option>
+        <option value="7d">Last 7 Days</option>
+      </select>
+      <button onclick="loadLogs()" class="px-4 py-2.5 bg-surface-container border border-outline-variant rounded-lg text-sm font-bold hover:bg-surface-container-high transition-all flex items-center gap-2">
+        <span class="material-symbols-outlined text-sm">refresh</span> Refresh
+      </button>
+    </div>
+
+    <!-- Log Table -->
+    <div class="bg-surface-container border border-outline-variant/30 rounded-xl overflow-hidden">
+      <div class="px-6 py-3 bg-surface-container-high border-b border-outline-variant/20 grid grid-cols-12 text-xs font-bold uppercase tracking-widest text-neutral-500">
+        <div class="col-span-3">Timestamp</div>
+        <div class="col-span-2">Transaction ID</div>
+        <div class="col-span-2">User ID</div>
+        <div class="col-span-2">Amount</div>
+        <div class="col-span-2">Risk Score</div>
+        <div class="col-span-1">Status</div>
+      </div>
+      <div id="logsContainer" class="divide-y divide-outline-variant/10 overflow-y-auto max-h-[55vh]">
+        <div class="text-center text-neutral-500 text-sm py-12">Loading audit logs...</div>
+      </div>
+    </div>
+
+    <!-- Pagination info -->
+    <div class="flex justify-between items-center mt-4 text-xs text-neutral-500">
+      <span id="logsCount">Showing 0 entries</span>
+      <span>Auto-refreshes every 15 seconds</span>
+    </div>
+  </div>
+</main>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl opacity-0 transition-all duration-300 bg-primary text-on-primary-fixed pointer-events-none"></div>
+
+<script>
+  const API_URL = 'http://localhost:5000/api';
+  let allLogs = [];
+
+  const user = JSON.parse(localStorage.getItem('fraudrix_user') || '{}');
+  if (user?.user_metadata?.full_name) {
+    document.getElementById('userAvatar').src = `https://ui-avatars.com/api/?name=${encodeURIComponent(user.user_metadata.full_name)}&background=96ce39&color=fff`;
+  }
+
+  function showToast(msg, cls = 'bg-primary text-on-primary-fixed') {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.className = `fixed bottom-6 right-6 z-50 px-5 py-3 rounded-xl text-sm font-bold shadow-2xl transition-all duration-300 pointer-events-none ${cls}`;
+    t.style.opacity = '1';
+    setTimeout(() => { t.style.opacity = '0'; }, 3000);
+  }
+
+  async function loadLogs() {
+    try {
+      const res = await fetch(`${API_URL}/transactions`);
+      allLogs = await res.json();
+      updateStats();
+      applyFilters();
+    } catch(e) {
+      document.getElementById('logsContainer').innerHTML = `<div class="text-center text-error text-sm py-12">Failed to load logs. Is the backend running?</div>`;
+    }
+  }
+
+  function updateStats() {
+    document.getElementById('statTotal').innerText = allLogs.length.toLocaleString('en-IN');
+    document.getElementById('statFraud').innerText = allLogs.filter(l => l.status === 'CONFIRMED_FRAUD').length;
+    document.getElementById('statFlagged').innerText = allLogs.filter(l => l.status === 'FLAGGED').length;
+    document.getElementById('statSafe').innerText = allLogs.filter(l => l.status === 'SAFE').length;
+  }
+
+  function applyFilters() {
+    const search = document.getElementById('searchInput').value.toLowerCase();
+    const event = document.getElementById('eventFilter').value;
+    const date = document.getElementById('dateFilter').value;
+    const now = Date.now();
+    const cutoffMap = { '1h': 3600000, '24h': 86400000, '7d': 604800000 };
+
+    const filtered = allLogs.filter(l => {
+      const matchSearch = !search || l.transactionId.toLowerCase().includes(search) || l.userId.toLowerCase().includes(search) || l.status.toLowerCase().includes(search);
+      const matchEvent = !event || l.status === event;
+      const matchDate = date === 'all' || (now - new Date(l.createdAt).getTime()) < cutoffMap[date];
+      return matchSearch && matchEvent && matchDate;
+    });
+
+    renderLogs(filtered);
+    document.getElementById('logsCount').innerText = `Showing ${filtered.length} of ${allLogs.length} entries`;
+  }
+
+  function renderLogs(logs) {
+    if (!logs.length) {
+      document.getElementById('logsContainer').innerHTML = `<div class="text-center text-neutral-500 text-sm py-12">No log entries match your filters.</div>`;
+      return;
+    }
+
+    const statusConfig = {
+      'FLAGGED': { color:'text-amber-400 bg-amber-400/10', label:'Flagged' },
+      'SAFE': { color:'text-primary bg-primary/10', label:'Safe' },
+      'SUSPICIOUS': { color:'text-orange-400 bg-orange-400/10', label:'Suspicious' },
+      'CONFIRMED_FRAUD': { color:'text-error bg-error/10', label:'Fraud' },
+      'FALSE_POSITIVE': { color:'text-neutral-400 bg-neutral-400/10', label:'False Pos.' },
+      'UNDER_INVESTIGATION': { color:'text-blue-400 bg-blue-400/10', label:'Investigating' },
+      'RESOLVED': { color:'text-emerald-400 bg-emerald-400/10', label:'Resolved' },
+    };
+
+    document.getElementById('logsContainer').innerHTML = logs.map(l => {
+      const cfg = statusConfig[l.status] || { color:'text-neutral-400 bg-neutral-400/10', label: l.status };
+      const riskColor = l.riskScore >= 70 ? 'text-error' : l.riskScore >= 40 ? 'text-amber-400' : 'text-primary';
+      const dt = new Date(l.createdAt);
+      return `<div class="fade-in grid grid-cols-12 px-6 py-3.5 hover:bg-surface-container-high transition-colors group items-center">
+        <div class="col-span-3 font-mono text-xs text-neutral-400">${dt.toLocaleString('en-IN')}</div>
+        <div class="col-span-2 font-mono text-xs text-primary truncate">${l.transactionId}</div>
+        <div class="col-span-2 font-mono text-xs text-neutral-300 truncate">${l.userId}</div>
+        <div class="col-span-2 font-mono text-xs font-bold text-on-surface">₹${l.amount.toLocaleString('en-IN')}</div>
+        <div class="col-span-2 font-mono text-xs font-bold ${riskColor}">${l.riskScore}</div>
+        <div class="col-span-1">
+          <span class="inline-flex items-center px-2 py-0.5 rounded text-[10px] font-bold uppercase ${cfg.color}">${cfg.label}</span>
+        </div>
+      </div>`;
+    }).join('');
+  }
+
+  function exportLogs() {
+    if (!allLogs.length) { showToast('No logs to export.', 'bg-error-container text-on-error-container'); return; }
+    const rows = [['Timestamp','Transaction ID','User ID','Amount (INR)','Risk Score','Status']];
+    allLogs.forEach(l => rows.push([new Date(l.createdAt).toLocaleString('en-IN'), l.transactionId, l.userId, l.amount, l.riskScore, l.status]));
+    const csv = rows.map(r => r.join(',')).join('\n');
+    const a = document.createElement('a');
+    a.href = 'data:text/csv;charset=utf-8,' + encodeURIComponent(csv);
+    a.download = `fraudrix_audit_logs_${Date.now()}.csv`;
+    a.click();
+    showToast('✓ Audit logs exported!');
+  }
+
+  loadLogs();
+  setInterval(loadLogs, 15000);
+</script>
+</body></html>

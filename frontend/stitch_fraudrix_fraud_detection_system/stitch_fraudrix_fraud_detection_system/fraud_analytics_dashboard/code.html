@@ -1,0 +1,515 @@
+<!DOCTYPE html>
+
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Fraudrix AI - Command Center</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&amp;display=swap" rel="stylesheet"/>
+<script id="tailwind-config">
+        tailwind.config = {
+            darkMode: "class",
+            theme: {
+                extend: {
+                    "colors": {
+                        "error": "#ffb4ab",
+                        "secondary": "#c8c6c3",
+                        "on-surface-variant": "#c3c9b2",
+                        "secondary-container": "#474744",
+                        "on-primary-fixed": "#121f00",
+                        "on-tertiary-fixed-variant": "#3f465c",
+                        "on-error": "#690005",
+                        "surface-container-low": "#1a1c1c",
+                        "surface-container-highest": "#333535",
+                        "on-background": "#e2e2e2",
+                        "outline": "#8d937e",
+                        "on-primary-fixed-variant": "#334f00",
+                        "on-surface": "#e2e2e2",
+                        "surface-bright": "#38393a",
+                        "surface-tint": "#9fd842",
+                        "on-secondary-container": "#b7b5b1",
+                        "on-secondary-fixed": "#1c1c1a",
+                        "on-primary": "#223600",
+                        "on-primary-container": "#375500",
+                        "background": "#121414",
+                        "primary": "#b1eb53",
+                        "on-tertiary-fixed": "#131b2e",
+                        "secondary-fixed-dim": "#c8c6c3",
+                        "tertiary": "#d1d9f3",
+                        "tertiary-fixed": "#dae2fd",
+                        "on-tertiary": "#283044",
+                        "on-secondary": "#31302e",
+                        "tertiary-container": "#b5bdd7",
+                        "on-tertiary-container": "#444c62",
+                        "surface-dim": "#121414",
+                        "inverse-surface": "#e2e2e2",
+                        "inverse-on-surface": "#2f3131",
+                        "surface-container-lowest": "#0c0f0f",
+                        "surface-container": "#1e2020",
+                        "on-secondary-fixed-variant": "#474744",
+                        "tertiary-fixed-dim": "#bec6e0",
+                        "on-error-container": "#ffdad6",
+                        "surface": "#121414",
+                        "primary-container": "#96ce39",
+                        "primary-fixed": "#baf55c",
+                        "outline-variant": "#434937",
+                        "secondary-fixed": "#e5e2de",
+                        "surface-variant": "#333535",
+                        "inverse-primary": "#456800",
+                        "primary-fixed-dim": "#9fd842",
+                        "surface-container-high": "#282a2b",
+                        "error-container": "#93000a"
+                    },
+                    "borderRadius": {
+                        "DEFAULT": "0.125rem",
+                        "lg": "0.25rem",
+                        "xl": "0.5rem",
+                        "full": "0.75rem"
+                    },
+                    "spacing": {
+                        "grid_margin": "32px",
+                        "grid_columns": "12",
+                        "xs": "4px",
+                        "base": "4px",
+                        "sm": "8px",
+                        "grid_gutter": "20px",
+                        "lg": "24px",
+                        "2xl": "48px",
+                        "xl": "32px",
+                        "md": "16px"
+                    },
+                    "fontFamily": {
+                        "h3": ["Inter"],
+                        "h2": ["Inter"],
+                        "body-md": ["Inter"],
+                        "body-lg": ["Inter"],
+                        "display": ["Inter"],
+                        "body-sm": ["Inter"],
+                        "mono": ["monospace"],
+                        "label-md": ["Inter"],
+                        "h1": ["Inter"]
+                    },
+                    "fontSize": {
+                        "h3": ["20px", {"lineHeight": "1.4", "fontWeight": "600"}],
+                        "h2": ["24px", {"lineHeight": "1.3", "fontWeight": "600"}],
+                        "body-md": ["16px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "body-lg": ["18px", {"lineHeight": "1.6", "fontWeight": "400"}],
+                        "display": ["48px", {"lineHeight": "1.2", "letterSpacing": "-0.02em", "fontWeight": "700"}],
+                        "body-sm": ["14px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "mono": ["13px", {"lineHeight": "1.5", "fontWeight": "400"}],
+                        "label-md": ["12px", {"lineHeight": "1.2", "letterSpacing": "0.05em", "fontWeight": "600"}],
+                        "h1": ["32px", {"lineHeight": "1.25", "letterSpacing": "-0.02em", "fontWeight": "600"}]
+                    }
+                },
+            },
+        }
+    </script>
+<style>
+        .material-symbols-outlined {
+            font-variation-settings: 'FILL' 0, 'wght' 400, 'GRAD' 0, 'opsz' 24;
+        }
+        .ai-insight-panel {
+            position: relative;
+            background: linear-gradient(to bottom right, rgba(177, 235, 83, 0.05), transparent);
+        }
+        .ai-insight-panel::before {
+            content: "";
+            position: absolute;
+            inset: 0;
+            padding: 1px;
+            border-radius: inherit;
+            background: linear-gradient(to right, #96ce39, transparent, #96ce39);
+            -webkit-mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            mask: linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0);
+            -webkit-mask-composite: xor;
+            mask-composite: exclude;
+            pointer-events: none;
+            opacity: 0.3;
+        }
+        ::-webkit-scrollbar { width: 6px; }
+        ::-webkit-scrollbar-track { background: #121414; }
+        ::-webkit-scrollbar-thumb { background: #333535; border-radius: 3px; }
+        ::-webkit-scrollbar-thumb:hover { background: #96ce39; }
+    </style>
+</head>
+<body class="bg-background text-on-background font-body-md selection:bg-primary-container selection:text-on-primary-container overflow-hidden h-screen flex">
+<!-- SideNavBar Shell -->
+<aside class="fixed left-0 top-0 h-screen w-64 border-r border-white/10 bg-neutral-900 dark:bg-neutral-950 flex flex-col pt-16 z-50">
+<div class="px-6 py-8 flex items-center gap-3">
+<div class="w-10 h-10 bg-primary-container rounded flex items-center justify-center">
+<span class="material-symbols-outlined text-on-primary-container" style="font-variation-settings: 'FILL' 1;">security</span>
+</div>
+<div>
+<h1 class="text-lime-400 font-bold font-inter text-md">Command Center</h1>
+<p class="text-neutral-500 text-[10px] uppercase tracking-widest font-bold">AI Engine Active</p>
+</div>
+</div>
+<nav class="flex-1 flex flex-col gap-1 mt-4">
+<!-- Active Tab: Dashboard -->
+<a class="border-l-2 border-lime-400 bg-lime-400/10 text-lime-400 py-3 px-6 flex items-center gap-3 transition-all duration-200 ease-in-out font-inter text-xs uppercase tracking-widest font-semibold" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="dashboard">dashboard</span>
+                Dashboard
+            </a>
+<a class="text-neutral-500 py-3 px-6 flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all duration-200 ease-in-out font-inter text-xs uppercase tracking-widest font-semibold" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="analytics">analytics</span>
+                Live Monitor
+            </a>
+<a class="text-neutral-500 py-3 px-6 flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all duration-200 ease-in-out font-inter text-xs uppercase tracking-widest font-semibold" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="rule">rule</span>
+                Rule Engine
+            </a>
+<a class="text-neutral-500 py-3 px-6 flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all duration-200 ease-in-out font-inter text-xs uppercase tracking-widest font-semibold" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="warning">warning</span>
+                Alerts Center
+            </a>
+</nav>
+<div class="px-6 mb-8">
+<button class="w-full bg-primary-container text-on-primary-fixed py-3 text-xs font-bold uppercase tracking-tighter hover:opacity-90 active:opacity-80 transition-all">
+                Quick Investigation
+            </button>
+</div>
+<div class="border-t border-white/5 pt-4 pb-6 flex flex-col gap-1">
+<a class="text-neutral-500 py-2 px-6 flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="contact_support">contact_support</span>
+                Support
+            </a>
+<a class="text-neutral-500 py-2 px-6 flex items-center gap-3 hover:bg-white/5 hover:text-neutral-200 transition-all text-xs font-semibold uppercase tracking-widest" href="#">
+<span class="material-symbols-outlined text-lg" data-icon="logout">logout</span>
+                Sign Out
+            </a>
+</div>
+</aside>
+<!-- Main Content Area -->
+<main class="flex-1 ml-64 flex flex-col overflow-hidden">
+<!-- TopAppBar Shell -->
+<header class="docked full-width top-0 z-40 bg-neutral-900 dark:bg-neutral-950 border-b border-white/10 flex justify-between items-center h-16 px-6 w-full shrink-0">
+<div class="flex items-center gap-8">
+<span class="text-xl font-black text-lime-400 tracking-tighter uppercase font-inter">Fraudrix AI</span>
+<nav class="hidden md:flex items-center gap-6">
+<a class="text-lime-400 font-bold font-inter text-sm tracking-tight transition-colors" href="#">Overview</a>
+<a class="text-neutral-400 font-inter text-sm tracking-tight hover:text-lime-400 transition-colors" href="#">Integrations</a>
+<a class="text-neutral-400 font-inter text-sm tracking-tight hover:text-lime-400 transition-colors" href="#">Audit Logs</a>
+</nav>
+</div>
+<div class="flex items-center gap-4">
+<div class="relative hidden lg:block">
+<span class="material-symbols-outlined absolute left-3 top-1/2 -translate-y-1/2 text-neutral-500 text-sm">search</span>
+<input class="bg-neutral-800 border-none rounded py-1.5 pl-10 pr-4 text-xs text-neutral-200 w-64 focus:ring-1 focus:ring-lime-400 transition-all" placeholder="Search transactions..." type="text"/>
+</div>
+<div class="flex items-center gap-2">
+<button class="p-2 text-neutral-400 hover:text-lime-400 transition-colors">
+<span class="material-symbols-outlined" data-icon="notifications">notifications</span>
+</button>
+<button class="p-2 text-neutral-400 hover:text-lime-400 transition-colors">
+<span class="material-symbols-outlined" data-icon="settings">settings</span>
+</button>
+<button class="p-2 text-neutral-400 hover:text-lime-400 transition-colors">
+<span class="material-symbols-outlined" data-icon="help">help</span>
+</button>
+</div>
+<div class="h-8 w-8 rounded-full overflow-hidden border border-white/20">
+<img alt="Analyst Profile Avatar" class="w-full h-full object-cover" data-alt="professional portrait of a tech analyst in a dark office setting with blue and lime ambient lighting" src="https://lh3.googleusercontent.com/aida-public/AB6AXuA7jkTHoqosd6QqHUTYi2sTr5-mLMEuLBmsStX4f_JT2VTxBq4rIGw-DgY8PJsQmzKbHWMbviur5otSeJZXCwIQOaqd155JkcAN4-F4WTWWcqBPYRDCXI4jYpfDJeyByGwqd07aj5PoKgCMqCZNtvuQxAMkjEFLMaXvPJCQBZsQzN34r3xPW0SE0DrBatAkM6ZfC1n4fEpJH1shcsECfK3Qt8bpA-IBKEXiRyq-Mg1ORRNe5ve6rXPmHpxrUMJ5FP5KSBfWdbkIGZo"/>
+</div>
+</div>
+</header>
+<!-- Dashboard Canvas -->
+<div class="flex-1 overflow-y-auto p-6 bg-background space-y-6">
+<!-- KPI Cards Row -->
+<div class="grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-4">
+<div class="bg-surface-container border border-white/5 p-5 rounded-lg flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-neutral-500 font-label-md uppercase">Total Transactions</span>
+<span class="text-lime-400 text-xs font-bold">+12.4%</span>
+</div>
+<div class="text-h1 font-display tracking-tight">1.2M</div>
+<div class="w-full bg-white/5 h-1 rounded-full mt-2">
+<div class="bg-lime-400 h-1 rounded-full" style="width: 75%"></div>
+</div>
+</div>
+<div class="bg-surface-container border border-white/5 p-5 rounded-lg flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-neutral-500 font-label-md uppercase">Fraud Rate</span>
+<span class="text-error text-xs font-bold">+0.02%</span>
+</div>
+<div class="text-h1 font-display tracking-tight">0.14%</div>
+<div class="w-full bg-white/5 h-1 rounded-full mt-2">
+<div class="bg-error h-1 rounded-full" style="width: 14%"></div>
+</div>
+</div>
+<div class="bg-surface-container border border-white/5 p-5 rounded-lg flex flex-col gap-2">
+<div class="flex justify-between items-start">
+<span class="text-neutral-500 font-label-md uppercase">Saved Revenue</span>
+<span class="text-lime-400 text-xs font-bold">+8.2%</span>
+</div>
+<div class="text-h1 font-display tracking-tight text-primary-container">$4.2M</div>
+<div class="w-full bg-white/5 h-1 rounded-full mt-2">
+<div class="bg-primary-container h-1 rounded-full" style="width: 82%"></div>
+</div>
+</div>
+<div class="ai-insight-panel border border-white/10 p-5 rounded-lg flex flex-col gap-2 justify-center">
+<div class="flex items-center gap-2 mb-1">
+<span class="material-symbols-outlined text-primary text-sm" style="font-variation-settings: 'FILL' 1;">auto_awesome</span>
+<span class="text-primary font-bold text-xs uppercase tracking-widest">AI Insight</span>
+</div>
+<p class="text-sm text-neutral-300 leading-tight">Fraud rate decreased in EMEA region. Suggesting optimization of Rule #412.</p>
+</div>
+</div>
+<!-- Main Visuals: Chart and Map -->
+<div class="grid grid-cols-12 gap-6">
+<!-- Risk Trends Line Chart -->
+<div class="col-span-12 lg:col-span-8 bg-surface-container border border-white/5 rounded-lg overflow-hidden flex flex-col h-[400px]">
+<div class="p-6 border-b border-white/5 flex justify-between items-center">
+<h3 class="text-h3 font-h3">Risk Trends</h3>
+<div class="flex gap-2">
+<button class="bg-surface-variant px-3 py-1 text-[10px] uppercase font-bold text-neutral-300">Daily</button>
+<button class="bg-primary-container px-3 py-1 text-[10px] uppercase font-bold text-on-primary">Weekly</button>
+<button class="bg-surface-variant px-3 py-1 text-[10px] uppercase font-bold text-neutral-300">Monthly</button>
+</div>
+</div>
+<div class="flex-1 relative p-6">
+<!-- Simulated Chart Representation -->
+<div class="absolute inset-0 m-6 flex items-end justify-between gap-1 opacity-20">
+<div class="w-full bg-neutral-700" style="height: 40%"></div>
+<div class="w-full bg-neutral-700" style="height: 60%"></div>
+<div class="w-full bg-neutral-700" style="height: 30%"></div>
+<div class="w-full bg-neutral-700" style="height: 80%"></div>
+<div class="w-full bg-neutral-700" style="height: 50%"></div>
+<div class="w-full bg-neutral-700" style="height: 90%"></div>
+<div class="w-full bg-neutral-700" style="height: 40%"></div>
+<div class="w-full bg-neutral-700" style="height: 60%"></div>
+</div>
+<div class="relative w-full h-full flex items-center justify-center">
+<div class="w-full h-px bg-white/5 absolute top-1/4"></div>
+<div class="w-full h-px bg-white/5 absolute top-1/2"></div>
+<div class="w-full h-px bg-white/5 absolute top-3/4"></div>
+<svg class="w-full h-full drop-shadow-[0_0_8px_rgba(177,235,83,0.5)]" preserveaspectratio="none" viewbox="0 0 100 40">
+<path d="M0,35 Q10,15 20,25 T40,10 T60,30 T80,5 T100,20" fill="none" stroke="#96ce39" stroke-width="1.5"></path>
+<path d="M0,35 Q10,15 20,25 T40,10 T60,30 T80,5 T100,20 L100,40 L0,40 Z" fill="url(#gradient)" opacity="0.1"></path>
+<defs>
+<lineargradient id="gradient" x1="0%" x2="0%" y1="0%" y2="100%">
+<stop offset="0%" style="stop-color:#96ce39;stop-opacity:1"></stop>
+<stop offset="100%" style="stop-color:#96ce39;stop-opacity:0"></stop>
+</lineargradient>
+</defs>
+</svg>
+</div>
+</div>
+</div>
+<!-- Recent High-Risk Alerts Sidebar -->
+<div class="col-span-12 lg:col-span-4 bg-surface-container border border-white/5 rounded-lg overflow-hidden flex flex-col h-[400px]">
+<div class="p-6 border-b border-white/5 flex justify-between items-center bg-surface-container-high">
+<h3 class="text-h3 font-h3">Critical Alerts</h3>
+<span class="bg-error/10 text-error px-2 py-0.5 text-[10px] font-bold rounded uppercase">8 New</span>
+</div>
+<div class="flex-1 overflow-y-auto divide-y divide-white/5">
+<!-- Alert Item -->
+<div class="p-4 hover:bg-white/5 transition-all cursor-pointer group">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 rounded-full bg-error animate-pulse"></div>
+<span class="text-xs font-bold uppercase text-neutral-300">Transaction ID: #8201-X</span>
+<span class="ml-auto text-[10px] text-neutral-500 font-mono">2m ago</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-sm font-medium text-on-surface">Carding Attempt Detected</p>
+<p class="text-[11px] text-neutral-500">Location: Lagos, Nigeria (VPN Detected)</p>
+</div>
+<div class="text-right">
+<div class="text-error font-bold text-sm">98/100</div>
+<div class="text-[9px] uppercase font-bold text-neutral-600">Risk Score</div>
+</div>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="p-4 hover:bg-white/5 transition-all cursor-pointer group">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 rounded-full bg-error"></div>
+<span class="text-xs font-bold uppercase text-neutral-300">Transaction ID: #8199-Z</span>
+<span class="ml-auto text-[10px] text-neutral-500 font-mono">14m ago</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-sm font-medium text-on-surface">High-Velocity Transfer</p>
+<p class="text-[11px] text-neutral-500">Amount: $12,500.00 (Unusual)</p>
+</div>
+<div class="text-right">
+<div class="text-error font-bold text-sm">92/100</div>
+<div class="text-[9px] uppercase font-bold text-neutral-600">Risk Score</div>
+</div>
+</div>
+</div>
+<!-- Alert Item -->
+<div class="p-4 hover:bg-white/5 transition-all cursor-pointer group">
+<div class="flex items-center gap-3 mb-2">
+<div class="w-2 h-2 rounded-full bg-surface-tint"></div>
+<span class="text-xs font-bold uppercase text-neutral-300">Transaction ID: #8195-A</span>
+<span class="ml-auto text-[10px] text-neutral-500 font-mono">42m ago</span>
+</div>
+<div class="flex justify-between items-end">
+<div>
+<p class="text-sm font-medium text-on-surface">Manual Review Triggered</p>
+<p class="text-[11px] text-neutral-500">Rule: Velocity Threshold Exceeded</p>
+</div>
+<div class="text-right">
+<div class="text-surface-tint font-bold text-sm">74/100</div>
+<div class="text-[9px] uppercase font-bold text-neutral-600">Risk Score</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+</div>
+<!-- Heatmap Section -->
+<div class="bg-surface-container border border-white/5 rounded-lg p-6">
+<div class="flex justify-between items-center mb-6">
+<div>
+<h3 class="text-h3 font-h3">Global Fraud Hotspots</h3>
+<p class="text-xs text-neutral-500">Real-time geographical risk distribution and attack origin</p>
+</div>
+<div class="flex gap-4">
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-error"></div>
+<span class="text-[10px] font-bold uppercase text-neutral-400">High Risk</span>
+</div>
+<div class="flex items-center gap-2">
+<div class="w-3 h-3 rounded-full bg-primary-container"></div>
+<span class="text-[10px] font-bold uppercase text-neutral-400">Low Risk</span>
+</div>
+</div>
+</div>
+<div class="relative w-full aspect-[21/9] rounded bg-neutral-950 overflow-hidden border border-white/10 group">
+<!-- World Map Placeholder Image -->
+<img class="w-full h-full object-cover opacity-60" data-alt="stylized vector world map on dark background with glowing lime and red hotspots indicating global fraud activity in high contrast digital style" data-location="Global" src="https://lh3.googleusercontent.com/aida-public/AB6AXuBrlWqTK50Websfr1hPiu0yT0cEuojEwLsL3iX6Mf5ldY1n7NTbm62QX4OCfQAV17s0-nyULGfWbVvK_C1iCLHK5lVzRitJQVkQJrMC1cmw9MnJ1rM4G_K1p5G6Hl3CRaaSBUyfi2d9mlORuyqVueWZNnTNNa1IGJa3RMWz-9CLvTevUFry1GqRPHiMDUzOZsKZ16JfOs6i-ffAN_nCFEFCslDLQIgt2dNJQ_goR5aDaLn1WTePFWfRXsyZ4-VsYLvd91mmZPj65tY"/>
+<!-- Floating Data Overlay -->
+<div class="absolute bottom-6 left-6 p-4 bg-black/60 backdrop-blur-md border border-white/10 rounded-lg">
+<div class="text-[10px] text-lime-400 font-bold uppercase mb-2 tracking-widest">Active Threats</div>
+<div class="space-y-2">
+<div class="flex items-center justify-between gap-8">
+<span class="text-xs text-neutral-300">Southeast Asia</span>
+<span class="text-xs font-bold text-error">CRITICAL</span>
+</div>
+<div class="flex items-center justify-between gap-8">
+<span class="text-xs text-neutral-300">North America</span>
+<span class="text-xs font-bold text-lime-400">NOMINAL</span>
+</div>
+<div class="flex items-center justify-between gap-8">
+<span class="text-xs text-neutral-300">Eastern Europe</span>
+<span class="text-xs font-bold text-error">ELEVATED</span>
+</div>
+</div>
+</div>
+<!-- Animated Pulse Points -->
+<div class="absolute top-[35%] left-[22%] w-4 h-4 bg-error rounded-full animate-ping opacity-75"></div>
+<div class="absolute top-[35%] left-[22%] w-2 h-2 bg-error rounded-full"></div>
+<div class="absolute top-[65%] left-[82%] w-4 h-4 bg-error rounded-full animate-ping opacity-75"></div>
+<div class="absolute top-[65%] left-[82%] w-2 h-2 bg-error rounded-full"></div>
+</div>
+</div>
+<!-- Bottom Data Table (Condensed Density) -->
+<div class="bg-surface-container border border-white/5 rounded-lg overflow-hidden">
+<div class="px-6 py-4 border-b border-white/5 flex justify-between items-center">
+<h3 class="text-h3 font-h3">Investigative Queue</h3>
+<button class="text-primary text-xs font-bold uppercase tracking-tight flex items-center gap-1">
+                        View All <span class="material-symbols-outlined text-sm">arrow_forward</span>
+</button>
+</div>
+<div class="overflow-x-auto">
+<table class="w-full text-left text-sm">
+<thead class="bg-white/5 text-neutral-400 font-label-md uppercase">
+<tr>
+<th class="px-6 py-3 font-semibold">User ID</th>
+<th class="px-6 py-3 font-semibold">Method</th>
+<th class="px-6 py-3 font-semibold">Amount</th>
+<th class="px-6 py-3 font-semibold">Risk Score</th>
+<th class="px-6 py-3 font-semibold">Status</th>
+<th class="px-6 py-3 font-semibold">Action</th>
+</tr>
+</thead>
+<tbody class="divide-y divide-white/5">
+<tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+<td class="px-6 py-4 font-mono text-xs">USR_88219</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-neutral-500 text-base">credit_card</span>
+<span>Visa ending in 4212</span>
+</td>
+<td class="px-6 py-4 font-bold">$1,290.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 88%"></div>
+</div>
+<span class="text-error font-bold text-xs">88</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error/10 text-error text-[10px] font-bold uppercase">
+<span class="w-1 h-1 rounded-full bg-error"></span> Flagged
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-1 hover:bg-white/10 rounded">
+<span class="material-symbols-outlined text-neutral-400 group-hover:text-primary">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+<td class="px-6 py-4 font-mono text-xs">USR_77102</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-neutral-500 text-base">account_balance</span>
+<span>ACH Transfer</span>
+</td>
+<td class="px-6 py-4 font-bold">$4,500.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-surface-tint h-full" style="width: 62%"></div>
+</div>
+<span class="text-surface-tint font-bold text-xs">62</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-surface-tint/10 text-surface-tint text-[10px] font-bold uppercase">
+<span class="w-1 h-1 rounded-full bg-surface-tint"></span> Pending
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-1 hover:bg-white/10 rounded">
+<span class="material-symbols-outlined text-neutral-400 group-hover:text-primary">visibility</span>
+</button>
+</td>
+</tr>
+<tr class="hover:bg-white/5 transition-colors cursor-pointer group">
+<td class="px-6 py-4 font-mono text-xs">USR_99015</td>
+<td class="px-6 py-4 flex items-center gap-2">
+<span class="material-symbols-outlined text-neutral-500 text-base">account_balance_wallet</span>
+<span>Crypto Withdrawal</span>
+</td>
+<td class="px-6 py-4 font-bold">$22,400.00</td>
+<td class="px-6 py-4">
+<div class="flex items-center gap-2">
+<div class="w-12 h-1.5 bg-white/10 rounded-full overflow-hidden">
+<div class="bg-error h-full" style="width: 94%"></div>
+</div>
+<span class="text-error font-bold text-xs">94</span>
+</div>
+</td>
+<td class="px-6 py-4">
+<span class="inline-flex items-center gap-1.5 px-2 py-0.5 rounded-full bg-error/10 text-error text-[10px] font-bold uppercase">
+<span class="w-1 h-1 rounded-full bg-error"></span> Blocked
+                                    </span>
+</td>
+<td class="px-6 py-4">
+<button class="p-1 hover:bg-white/10 rounded">
+<span class="material-symbols-outlined text-neutral-400 group-hover:text-primary">visibility</span>
+</button>
+</td>
+</tr>
+</tbody>
+</table>
+</div>
+</div>
+</div>
+</main>
+</body></html>

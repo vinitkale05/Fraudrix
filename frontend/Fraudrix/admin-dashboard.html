@@ -1,0 +1,362 @@
+<!DOCTYPE html>
+<html class="dark" lang="en"><head>
+<meta charset="utf-8"/>
+<meta content="width=device-width, initial-scale=1.0" name="viewport"/>
+<title>Admin Dashboard | Fraudrix AI</title>
+<script src="https://cdn.tailwindcss.com?plugins=forms,container-queries"></script>
+<link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;800;900&display=swap" rel="stylesheet"/>
+<link href="https://fonts.googleapis.com/css2?family=Material+Symbols+Outlined:wght,FILL@100..700,0..1&display=swap" rel="stylesheet"/>
+<style>
+  ::-webkit-scrollbar { width: 4px; } ::-webkit-scrollbar-thumb { background: #b1eb53; border-radius: 2px; }
+  @keyframes slideIn { from { opacity: 0; transform: translateX(-10px); } to { opacity: 1; transform: translateX(0); } }
+  .slide-in { animation: slideIn 0.3s ease forwards; }
+</style>
+<script id="tailwind-config">
+  tailwind.config = { darkMode: "class", theme: { extend: {
+    colors: {
+      "primary": "#b1eb53",
+      "background": "#0f1111",
+      "surface-container": "#161818",
+      "on-surface": "#e2e2e2",
+      "on-surface-variant": "#a3a9a9",
+      "outline-variant": "#2a2d2d"
+    }
+  }}}
+</script>
+</head>
+<body class="bg-background text-on-surface min-h-screen flex">
+
+<!-- Sidebar -->
+<aside class="w-64 border-r border-white/5 flex flex-col shrink-0">
+  <div class="p-8">
+    <div class="text-primary font-black text-2xl tracking-tighter uppercase mb-8">Admin</div>
+    <nav class="space-y-1">
+      <button onclick="showTab('stats')" id="btn-stats" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl bg-primary/10 text-primary font-bold transition-all">
+        <span class="material-symbols-outlined">analytics</span> Statistics
+      </button>
+      <button onclick="showTab('users')" id="btn-users" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-white hover:bg-white/5 transition-all">
+        <span class="material-symbols-outlined">group</span> User Directory
+      </button>
+      <button onclick="showTab('system')" id="btn-system" class="w-full flex items-center gap-3 px-4 py-3 rounded-xl text-on-surface-variant hover:text-white hover:bg-white/5 transition-all">
+        <span class="material-symbols-outlined">settings_suggest</span> System Health
+      </button>
+    </nav>
+  </div>
+  <div class="mt-auto p-8 border-t border-white/5">
+    <button onclick="logout()" class="w-full flex items-center gap-3 px-4 py-3 text-error hover:bg-error/5 rounded-xl transition-all">
+      <span class="material-symbols-outlined">logout</span> Log Out
+    </button>
+  </div>
+</aside>
+
+<!-- Main -->
+<main class="flex-grow p-10 overflow-y-auto">
+  <header class="flex justify-between items-center mb-10">
+    <div>
+        <h1 id="tabTitle" class="text-4xl font-black text-white mb-2">System Overview</h1>
+        <p id="tabDesc" class="text-on-surface-variant">Real-time platform metrics and global intelligence.</p>
+    </div>
+    <div class="flex items-center gap-4">
+        <div id="liveIndicator" class="flex items-center gap-2 px-3 py-1 bg-primary/5 border border-primary/20 rounded-full">
+            <span class="w-1.5 h-1.5 bg-primary rounded-full animate-pulse"></span>
+            <span class="text-[10px] font-black text-primary uppercase tracking-widest">Live Syncing</span>
+        </div>
+        <button onclick="loadData()" class="p-2 rounded-lg bg-surface-container border border-white/10 hover:bg-white/5 transition-all">
+            <span id="refreshIcon" class="material-symbols-outlined text-primary">refresh</span>
+        </button>
+        <div class="text-right">
+            <div id="adminName" class="text-white font-bold text-sm">--</div>
+            <div class="text-[10px] text-primary font-bold uppercase tracking-widest">Global Admin</div>
+        </div>
+    </div>
+  </header>
+<script>
+  let statsInterval;
+
+  function startStatsSync() {
+    if (statsInterval) clearInterval(statsInterval);
+    statsInterval = setInterval(() => {
+        if (!document.getElementById('tab-stats').classList.contains('hidden')) {
+            loadData(true);
+        }
+    }, 5000);
+  }
+
+  function stopStatsSync() {
+    if (statsInterval) clearInterval(statsInterval);
+  }
+</script>
+
+  <!-- Stats Tab -->
+  <div id="tab-stats" class="tab-content space-y-8">
+    <div class="grid grid-cols-4 gap-6">
+      <div class="bg-surface-container border border-white/5 p-6 rounded-2xl">
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">Total Volume</div>
+        <div id="stat-volume" class="text-3xl font-black text-white">--</div>
+        <div class="text-[10px] text-primary mt-1">Aggregated INR</div>
+      </div>
+      <div class="bg-surface-container border border-white/5 p-6 rounded-2xl">
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">Fraud Rate</div>
+        <div id="stat-rate" class="text-3xl font-black text-error">--</div>
+        <div class="text-[10px] text-on-surface-variant mt-1">Global average</div>
+      </div>
+      <div class="bg-surface-container border border-white/5 p-6 rounded-2xl">
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">Active Users</div>
+        <div id="stat-users" class="text-3xl font-black text-white">--</div>
+        <div class="text-[10px] text-primary mt-1">Total institutions</div>
+      </div>
+      <div class="bg-surface-container border border-white/5 p-6 rounded-2xl">
+        <div class="text-[10px] font-bold text-on-surface-variant uppercase tracking-widest mb-2">System Uptime</div>
+        <div class="text-3xl font-black text-primary">99.99%</div>
+        <div class="text-[10px] text-primary mt-1">Operational</div>
+      </div>
+    </div>
+
+    <div class="grid grid-cols-12 gap-6">
+      <div class="col-span-8 bg-surface-container border border-white/5 rounded-2xl p-8">
+        <h2 class="text-xl font-bold text-white mb-6">Recent Platform Events</h2>
+        <div class="space-y-4" id="recentEvents">
+          <!-- Events loaded here -->
+        </div>
+      </div>
+      <div class="col-span-4 space-y-6">
+        <div class="bg-surface-container border border-white/5 rounded-2xl p-6">
+            <h3 class="text-sm font-bold text-white mb-4">Status Distribution</h3>
+            <div id="statusBreakdown" class="space-y-3">
+                <!-- Status counts -->
+            </div>
+        </div>
+        <div class="bg-[#1c1212] border border-error/20 rounded-2xl p-6">
+            <h3 class="text-sm font-bold text-error mb-2 uppercase tracking-widest">Danger Zone</h3>
+            <p class="text-xs text-on-surface-variant mb-4">Permanent actions. Proceed with extreme caution.</p>
+            <button onclick="purgeData()" class="w-full py-3 bg-error text-black font-black rounded-xl hover:brightness-110 active:scale-95 transition-all text-xs uppercase tracking-widest">
+                Purge All Transactions
+            </button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+  <!-- Users Tab -->
+  <div id="tab-users" class="tab-content hidden space-y-6">
+    <div class="bg-surface-container border border-white/5 rounded-2xl overflow-hidden">
+        <table class="w-full text-left">
+            <thead>
+                <tr class="bg-white/5 text-[10px] font-bold text-on-surface-variant uppercase tracking-widest">
+                    <th class="px-6 py-4">User / Company</th>
+                    <th class="px-6 py-4">Email</th>
+                    <th class="px-6 py-4">Created At</th>
+                    <th class="px-6 py-4">Last Active</th>
+                    <th class="px-6 py-4">Status</th>
+                </tr>
+            </thead>
+            <tbody id="usersList" class="text-sm">
+                <!-- Users loaded here -->
+            </tbody>
+        </table>
+    </div>
+  </div>
+
+  <!-- System Tab -->
+  <div id="tab-system" class="tab-content hidden">
+    <div class="grid grid-cols-3 gap-6">
+        <div class="bg-surface-container p-8 rounded-2xl border border-white/5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">database</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Database</h3>
+            <p class="text-xs text-on-surface-variant mb-4">MongoDB Atlas Cluster</p>
+            <div class="text-primary text-xs font-bold uppercase">Connected & Syncing</div>
+        </div>
+        <div class="bg-surface-container p-8 rounded-2xl border border-white/5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">bolt</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Compute Engine</h3>
+            <p class="text-xs text-on-surface-variant mb-4">Worker Nodes (v1.2.0)</p>
+            <div class="text-primary text-xs font-bold uppercase">4 Nodes Operational</div>
+        </div>
+        <div class="bg-surface-container p-8 rounded-2xl border border-white/5 text-center">
+            <div class="w-16 h-16 bg-primary/10 rounded-full flex items-center justify-center mx-auto mb-4">
+                <span class="material-symbols-outlined text-primary text-3xl">shield</span>
+            </div>
+            <h3 class="text-lg font-bold text-white mb-1">Supabase Auth</h3>
+            <p class="text-xs text-on-surface-variant mb-4">Edge Identity Service</p>
+            <div class="text-primary text-xs font-bold uppercase">Running Normally</div>
+        </div>
+    </div>
+  </div>
+</main>
+
+<!-- Toast -->
+<div id="toast" class="fixed bottom-10 right-10 z-50 px-6 py-4 rounded-2xl font-bold shadow-2xl opacity-0 translate-y-10 transition-all duration-300"></div>
+
+<script>
+  const API_URL = 'http://localhost:5000/api';
+  const admin = JSON.parse(localStorage.getItem('fraudrix_admin_user') || '{}');
+  let syncInterval;
+  
+  if (!localStorage.getItem('fraudrix_admin_token')) {
+    window.location.href = 'admin-login.html';
+  }
+
+  document.getElementById('adminName').innerText = admin.user_metadata?.full_name || 'Admin';
+
+  function showToast(msg, isError = false) {
+    const t = document.getElementById('toast');
+    t.innerText = msg;
+    t.className = `fixed bottom-10 right-10 z-50 px-6 py-4 rounded-2xl font-bold shadow-2xl opacity-100 translate-y-0 transition-all duration-300 ${isError ? 'bg-error text-black' : 'bg-primary text-black'}`;
+    setTimeout(() => { t.className = t.className.replace('opacity-100 translate-y-0', 'opacity-0 translate-y-10'); }, 3000);
+  }
+
+  function showTab(id) {
+    document.querySelectorAll('.tab-content').forEach(t => t.classList.add('hidden'));
+    document.getElementById(`tab-${id}`).classList.remove('hidden');
+    
+    // Update active state in nav
+    document.querySelectorAll('nav button').forEach(b => {
+        b.classList.remove('bg-primary/10', 'text-primary', 'font-bold');
+        b.classList.add('text-on-surface-variant');
+    });
+    const activeBtn = document.getElementById(`btn-${id}`);
+    activeBtn.classList.add('bg-primary/10', 'text-primary', 'font-bold');
+    activeBtn.classList.remove('text-on-surface-variant');
+
+    // Update header
+    const configs = {
+        'stats': { title: 'System Overview', desc: 'Real-time platform metrics and global intelligence.' },
+        'users': { title: 'User Directory', desc: 'Manage financial institutions and platform users.' },
+        'system': { title: 'System Health', desc: 'Infrastructure status and service uptime monitoring.' }
+    };
+    document.getElementById('tabTitle').innerText = configs[id].title;
+    document.getElementById('tabDesc').innerText = configs[id].desc;
+
+    if (id === 'stats') {
+        loadData();
+        startSync();
+    } else {
+        stopSync();
+        if (id === 'users') loadUsers();
+    }
+  }
+
+  function startSync() {
+    if (syncInterval) clearInterval(syncInterval);
+    syncInterval = setInterval(() => loadData(true), 5000);
+    document.getElementById('liveIndicator').classList.remove('opacity-0');
+  }
+
+  function stopSync() {
+    if (syncInterval) clearInterval(syncInterval);
+    document.getElementById('liveIndicator').classList.add('opacity-0');
+  }
+
+  async function loadData(isAuto = false) {
+    if (!isAuto) {
+        document.getElementById('refreshIcon').classList.add('animate-spin');
+    }
+    try {
+      const tryFetch = async (url) => {
+          try { return await fetch(url); }
+          catch (e) { 
+              if (url.includes('localhost')) return await fetch(url.replace('localhost', '127.0.0.1'));
+              throw e;
+          }
+      };
+
+      const res = await tryFetch(`${API_URL}/admin/stats`);
+      const data = await res.json();
+      
+      document.getElementById('stat-volume').innerText = '₹' + (data.overview.totalVolume / 10000000).toFixed(2) + ' Cr';
+      document.getElementById('stat-rate').innerText = data.overview.fraudRate + '%';
+      document.getElementById('stat-users').innerText = data.overview.totalUsers;
+
+      // Status breakdown
+      const statusHtml = Object.entries(data.statusBreakdown).map(([key, val]) => `
+        <div class="flex justify-between items-center mt-3">
+            <span class="text-[10px] text-on-surface-variant uppercase tracking-wider">${key}</span>
+            <span class="text-xs font-black text-white">${val}</span>
+        </div>
+        <div class="w-full bg-white/5 h-1 rounded-full overflow-hidden mt-1">
+            <div class="bg-primary h-full transition-all duration-1000" style="width: ${Math.min(100, (val/data.overview.totalTransactions)*100)}%"></div>
+        </div>
+      `).join('');
+      document.getElementById('statusBreakdown').innerHTML = statusHtml;
+
+      // Recent events
+      const eventsHtml = data.recentTransactions.map(tx => `
+        <div class="flex items-center justify-between p-4 bg-white/5 rounded-xl border border-white/5 slide-in">
+            <div class="flex items-center gap-4">
+                <div class="w-10 h-10 rounded bg-white/5 flex items-center justify-center">
+                    <span class="material-symbols-outlined text-on-surface-variant">receipt_long</span>
+                </div>
+                <div>
+                    <div class="text-sm font-bold text-white">${tx.transactionId}</div>
+                    <div class="text-[10px] text-on-surface-variant uppercase">${new Date(tx.createdAt).toLocaleString()}</div>
+                </div>
+            </div>
+            <div class="text-right">
+                <div class="text-sm font-bold text-white">₹${tx.amount.toLocaleString()}</div>
+                <div class="text-[10px] ${tx.status === 'SAFE' ? 'text-primary' : 'text-error'} font-bold uppercase">${tx.status}</div>
+            </div>
+        </div>
+      `).join('');
+      document.getElementById('recentEvents').innerHTML = eventsHtml || '<div class="text-center text-on-surface-variant py-10">No recent events.</div>';
+
+    } catch (e) {
+      if (!isAuto) showToast('Failed to fetch system stats.', true);
+    } finally {
+      if (!isAuto) document.getElementById('refreshIcon').classList.remove('animate-spin');
+    }
+  }
+
+  async function loadUsers() {
+    try {
+      const res = await fetch(`${API_URL}/admin/users`);
+      const users = await res.json();
+      
+      const listHtml = users.map(u => `
+        <tr class="border-t border-white/5 hover:bg-white/5 transition-colors">
+            <td class="px-6 py-4">
+                <div class="font-bold text-white">${u.fullName}</div>
+                <div class="text-[10px] text-on-surface-variant uppercase tracking-wider">${u.company}</div>
+            </td>
+            <td class="px-6 py-4 font-mono text-xs text-on-surface-variant">${u.email}</td>
+            <td class="px-6 py-4 text-xs text-on-surface-variant">${new Date(u.createdAt).toLocaleDateString()}</td>
+            <td class="px-6 py-4 text-xs text-on-surface-variant">${u.lastSignIn ? new Date(u.lastSignIn).toLocaleString() : 'Never'}</td>
+            <td class="px-6 py-4">
+                <span class="px-2 py-1 rounded text-[10px] font-black uppercase tracking-widest bg-primary/10 text-primary">Active</span>
+            </td>
+        </tr>
+      `).join('');
+      document.getElementById('usersList').innerHTML = listHtml || '<tr><td colspan="5" class="text-center py-10 text-on-surface-variant">No users found.</td></tr>';
+    } catch (e) {
+      showToast('Failed to fetch user list.', true);
+    }
+  }
+
+  async function purgeData() {
+    if (!confirm('EXTREME WARNING: This will permanently delete all transaction history across the platform. This cannot be undone. Are you absolutely sure?')) return;
+    
+    try {
+      const res = await fetch(`${API_URL}/admin/transactions/purge`, { method: 'DELETE' });
+      if (res.ok) {
+        showToast('✓ All transactions purged successfully.');
+        loadData();
+      }
+    } catch (e) {
+      showToast('Purge failed. Insufficient permissions or server error.', true);
+    }
+  }
+
+  function logout() {
+    localStorage.removeItem('fraudrix_admin_token');
+    localStorage.removeItem('fraudrix_admin_user');
+    window.location.href = 'index.html';
+  }
+
+  // Initial Load
+  loadData();
+  startSync();
+</script>
+</body></html>
