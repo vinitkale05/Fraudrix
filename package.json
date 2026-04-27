@@ -4,6 +4,6 @@
   "private": true,
   "description": "Enterprise Fraud Detection Platform",
   "engines": {
-    "node": "18.x"
+    "node": "20.x"
   }
 }
